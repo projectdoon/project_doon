@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "3006431084",
+    "project_id": "mydoonapp-4ccea",
+    "storage_bucket": "mydoonapp-4ccea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3006431084:android:4c1f9ff17bc1bf43e63d49",
+        "android_client_info": {
+          "package_name": "com.example.mydoon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVtdvQ93QZjSV09gA5mBkOhaU27diZOaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
