@@ -26,7 +26,15 @@ class RegisterScreen extends StatelessWidget {
             onPressed: () async {
               try {
                 UserCredential? userCredential = await _auth.logInWithGoogle();
+                AuthService authService = AuthService();
                 if (userCredential != null) {
+
+
+                  Map<String, dynamic>? userDetails = await authService.getUserDetails();
+                  print('$userDetails');
+
+
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const HomePage()),
