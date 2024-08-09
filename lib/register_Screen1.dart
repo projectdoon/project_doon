@@ -232,20 +232,11 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                   ),
                 ),
               ),
-
-
-
-
                Image.asset(
                   'assets/loginscreenabstract.png',
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
-
-
-
-
-
 
             ],
           ),
