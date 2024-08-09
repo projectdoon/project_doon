@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mydoon/register.dart';
+import 'package:mydoon/register_Screen1.dart';
 
 import 'home.dart';
 
@@ -16,7 +17,7 @@ class CheckState extends StatelessWidget {
             return const CircularProgressIndicator();
           }
           if (snapshot.hasData) {
-            return const HomePage();
+            return const RegisterScreen1();
           }
           else {
             return RegisterScreen(); //
