@@ -23,11 +23,6 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-
-              // Container(
-              //
-              // ),
-
               Container(
                 padding: const EdgeInsets.only(left: 16.0),
                 alignment: Alignment.centerLeft,
@@ -167,8 +162,6 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                 ),
 
 
-
-
               ),
 
 
@@ -234,7 +227,6 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
               ),
 
 
-
               Container(
                 padding: EdgeInsets.only(top: 90),
                 alignment: Alignment.bottomLeft,
@@ -244,9 +236,6 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                   fit: BoxFit.cover,
                 ),
               ),
-
-
-
 
 
             ],
