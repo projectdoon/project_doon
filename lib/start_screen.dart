@@ -127,7 +127,7 @@ class _StartScreenState extends State<StartScreen> {
 
               Container(
                 height: 45,
-                width: 335,
+                width: 325,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 255, 255, 255),
                   shape: BoxShape.rectangle,
@@ -144,13 +144,13 @@ class _StartScreenState extends State<StartScreen> {
                   child: TextField(
                     autofocus: true,
                     controller: _phoneNumberController,
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                     decoration: const InputDecoration(
                       hintStyle: TextStyle(
                           color: Color.fromARGB(255, 130, 130, 130),
-                          fontSize: 16,
+                          fontSize: 19,
                           fontWeight: FontWeight.normal),
-                      hintText: 'PLease Enter Your Phone Number',
+                      hintText: '+91  Phone No.',
                       border: InputBorder.none,
                     ),
                   ),
@@ -199,6 +199,13 @@ class _StartScreenState extends State<StartScreen> {
               ),
               const SizedBox(
                 height: 70,
+              ),
+              Container(
+                alignment: Alignment.bottomLeft,
+                child: Image.asset(
+                    'assets/loginscreenabstract.png',
+                    width: 300,
+                    ),
               ),
             ],
           ),
