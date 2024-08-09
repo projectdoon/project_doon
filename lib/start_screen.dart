@@ -41,89 +41,92 @@ class _StartScreenState extends State<StartScreen> {
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               Container(
                 alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 0, top: 115),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 0, top: 115),
                   child: Text(
-                    'WELCOME',
-                    style: GoogleFonts.poppins(
-                      fontSize: 30,
+                    'Welcome',
+                    style: TextStyle(
+                      fontFamily: 'FontMain/Product Sans Bold.ttf',
+                      fontSize: 50,
                       color: Colors.black,
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 45),
               //google login button
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      UserCredential? userCredential =
+                          await _auth.logInWithGoogle();
+                      AuthService authService = AuthService();
+                      if (userCredential != null) {
+                        Map<String, dynamic>? userDetails =
+                            await authService.getUserDetails();
+                        print('$userDetails');
 
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        UserCredential? userCredential =
-                            await _auth.logInWithGoogle();
-                        AuthService authService = AuthService();
-                        if (userCredential != null) {
-                          Map<String, dynamic>? userDetails =
-                              await authService.getUserDetails();
-                          print('$userDetails');
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterScreen()),
-                          );
-                        }
-                      } catch (e) {
-                        if (kDebugMode) {
-                          print("Error logging in with Google: $e");
-                        }
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterScreen()),
+                        );
                       }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shadowColor: Color.fromARGB(255, 24, 118, 210),
-                      padding: EdgeInsets.only(top: 13,bottom: 13),
-                      side: const BorderSide(
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print("Error logging in with Google: $e");
+                      }
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shadowColor: Color.fromARGB(255, 24, 118, 210),
+                    padding: EdgeInsets.only(top: 13, bottom: 13),
+                    side: const BorderSide(
+                      width: 1,
+                      color: Colors.black,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/google-icon.svg', // Ensure this path is correct
-                          height: 19,
-                        ),
-                        const SizedBox(width: 10),
-                        const Text(
-                          'CONTINUE WITH GOOGLE',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ],
+                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/google-icon.svg', // Ensure this path is correct
+                        height: 19,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'CONTINUE WITH GOOGLE',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ),
 
               //google login button end
               const SizedBox(
-                height: 50,
+                height: 25,
               ),
 
-
+              Image.asset('assets/Or_frame.png'),
+              const SizedBox(
+                height: 25,
+              ),
 
               Container(
                 height: 45,
@@ -142,7 +145,7 @@ class _StartScreenState extends State<StartScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
-                    autofocus: true,
+                    autofocus: false,
                     controller: _phoneNumberController,
                     textAlign: TextAlign.start,
                     decoration: const InputDecoration(
@@ -159,55 +162,60 @@ class _StartScreenState extends State<StartScreen> {
               const SizedBox(
                 height: 50,
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(174, 0, 87, 115),
-                  elevation: 0.1,
-                  shape: const CircleBorder(
-                    side: BorderSide(
-                      color: Colors.transparent, // Border color
-                      width: 0.5, // B
-                      // order width
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+
+                children: [
+
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 24, 118, 210),
+                        elevation: 0.1,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                        size: 30, // Icon color
+                      ),
+                      // onPressed: () async {
+                      //   phoneNo =
+                      //       phoneNo + _phoneNumberController.text.toString();
+                      //   await FirebaseAuth.instance.verifyPhoneNumber(
+                      //     verificationCompleted:
+                      //         (PhoneAuthCredential credential) {},
+                      //     verificationFailed: (FirebaseAuthException ex) {},
+                      //     codeSent: (String verificationid, int? resendToken) {
+                      //       Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) => OTPScreen(
+                      //             verificationID: verificationid,
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //     codeAutoRetrievalTimeout: (String verificationId) {},
+                      //     phoneNumber: phoneNo.toString(),
+                      //   );
+                      // },
+                      onPressed: (){
+
+                      },
                     ),
                   ),
-                  padding: const EdgeInsets.all(20),
-                ),
-                child: const Icon(
-                  Icons.arrow_forward,
-                  color: Colors.white,
-                  size: 30, // Icon color
-                ),
-                onPressed: () async {
-                  phoneNo = phoneNo + _phoneNumberController.text.toString();
-                  await FirebaseAuth.instance.verifyPhoneNumber(
-                    verificationCompleted: (PhoneAuthCredential credential) {},
-                    verificationFailed: (FirebaseAuthException ex) {},
-                    codeSent: (String verificationid, int? resendToken) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OTPScreen(
-                            verificationID: verificationid,
-                          ),
-                        ),
-                      );
-                    },
-                    codeAutoRetrievalTimeout: (String verificationId) {},
-                    phoneNumber: phoneNo.toString(),
-                  );
-                },
+                ],
               ),
-
               const SizedBox(
                 height: 70,
               ),
-              Container(
-                padding: EdgeInsets.only(top: 90),
-                alignment: Alignment.bottomLeft,
+
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
                 child: Image.asset(
-                    'assets/loginscreenabstract.png',
-                    width: 450,
-                    ),
+                  'assets/loginscreenabstract.png',
+                ),
               ),
             ],
           ),
