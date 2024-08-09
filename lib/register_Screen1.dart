@@ -235,15 +235,13 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
 
 
 
-              Container(
-                padding: EdgeInsets.only(top: 90),
-                alignment: Alignment.bottomLeft,
-                child: Image.asset(
+
+               Image.asset(
                   'assets/loginscreenabstract.png',
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
-              ),
+
 
 
 

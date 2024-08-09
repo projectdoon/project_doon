@@ -179,26 +179,29 @@ class _StartScreenState extends State<StartScreen> {
                         color: Colors.white,
                         size: 30, // Icon color
                       ),
-                      onPressed: () async {
-                        phoneNo =
-                            phoneNo + _phoneNumberController.text.toString();
-                        await FirebaseAuth.instance.verifyPhoneNumber(
-                          verificationCompleted:
-                              (PhoneAuthCredential credential) {},
-                          verificationFailed: (FirebaseAuthException ex) {},
-                          codeSent: (String verificationid, int? resendToken) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OTPScreen(
-                                  verificationID: verificationid,
-                                ),
-                              ),
-                            );
-                          },
-                          codeAutoRetrievalTimeout: (String verificationId) {},
-                          phoneNumber: phoneNo.toString(),
-                        );
+                      // onPressed: () async {
+                      //   phoneNo =
+                      //       phoneNo + _phoneNumberController.text.toString();
+                      //   await FirebaseAuth.instance.verifyPhoneNumber(
+                      //     verificationCompleted:
+                      //         (PhoneAuthCredential credential) {},
+                      //     verificationFailed: (FirebaseAuthException ex) {},
+                      //     codeSent: (String verificationid, int? resendToken) {
+                      //       Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) => OTPScreen(
+                      //             verificationID: verificationid,
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //     codeAutoRetrievalTimeout: (String verificationId) {},
+                      //     phoneNumber: phoneNo.toString(),
+                      //   );
+                      // },
+                      onPressed: (){
+
                       },
                     ),
                   ),
