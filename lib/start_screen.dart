@@ -197,14 +197,16 @@ class _StartScreenState extends State<StartScreen> {
                   );
                 },
               ),
+
               const SizedBox(
                 height: 70,
               ),
               Container(
+                padding: EdgeInsets.only(top: 90),
                 alignment: Alignment.bottomLeft,
                 child: Image.asset(
                     'assets/loginscreenabstract.png',
-                    width: 300,
+                    width: 450,
                     ),
               ),
             ],
