@@ -20,8 +20,6 @@ class _HomePageState extends State<HomePage> {
   late String latitude ;
   late String longitude ;
 
-
-
   @override
   void dispose() {
     _NameController.dispose();

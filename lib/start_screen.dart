@@ -58,7 +58,7 @@ class _StartScreenState extends State<StartScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 35),
               //google login button
                 Padding(
                   padding: const EdgeInsets.only(left: 30, right: 30),
@@ -120,11 +120,14 @@ class _StartScreenState extends State<StartScreen> {
 
               //google login button end
               const SizedBox(
-                height: 30,
+                height: 50,
               ),
+
+
+
               Container(
                 height: 45,
-                width: 325,
+                width: 335,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 255, 255, 255),
                   shape: BoxShape.rectangle,
@@ -141,13 +144,13 @@ class _StartScreenState extends State<StartScreen> {
                   child: TextField(
                     autofocus: true,
                     controller: _phoneNumberController,
-                    textAlign: TextAlign.start,
+                    textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       hintStyle: TextStyle(
                           color: Color.fromARGB(255, 130, 130, 130),
-                          fontSize: 19,
+                          fontSize: 16,
                           fontWeight: FontWeight.normal),
-                      hintText: 'Phone No.',
+                      hintText: 'PLease Enter Your Phone Number',
                       border: InputBorder.none,
                     ),
                   ),

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'authServices/auth.dart';
 import 'home.dart';
 
@@ -17,7 +16,6 @@ class RegisterScreen extends StatelessWidget {
       },
       child: Scaffold(
         body: Center(
-
         child:
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -27,12 +25,8 @@ class RegisterScreen extends StatelessWidget {
                 UserCredential? userCredential = await _auth.logInWithGoogle();
                 AuthService authService = AuthService();
                 if (userCredential != null) {
-
-
                   Map<String, dynamic>? userDetails = await authService.getUserDetails();
                   print('$userDetails');
-
-
 
                   Navigator.pushReplacement(
                     context,
@@ -45,6 +39,7 @@ class RegisterScreen extends StatelessWidget {
                 }
               }
             },
+
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color.fromARGB(255, 88, 176, 203),
               shape: RoundedRectangleBorder(

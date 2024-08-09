@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mydoon/start_screen.dart';
 
 
-
-
 class MydoonActivescreen extends StatefulWidget {
 
 
