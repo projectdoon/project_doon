@@ -16,7 +16,7 @@ void main() async {
 
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: RegisterScreen1(),))
+    home: StartScreen(),))
   ;
 }
 

@@ -48,15 +48,15 @@ class _StartScreenState extends State<StartScreen> {
                 alignment: Alignment.center,
                 child: const Padding(
                   padding: EdgeInsets.only(left: 0, top: 115),
-                  child: Text(
-                    'Welcome',
-                    style: TextStyle(
-                      fontFamily: 'FontMain/Product Sans Bold.ttf',
-                      fontSize: 50,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child:Text(
+                  'Welcome',
+                  style: TextStyle(
+                    fontFamily: 'FontMain/Product Sans Bold.ttf',
+                    fontSize: 50,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
                 ),
               ),
               const SizedBox(height: 45),
@@ -110,6 +110,7 @@ class _StartScreenState extends State<StartScreen> {
                         'CONTINUE WITH GOOGLE',
                         textAlign: TextAlign.center,
                         style: TextStyle(
+                          fontFamily: 'FontMain/Product Sans Bold.ttf',
                           color: Color.fromARGB(255, 0, 0, 0),
                         ),
                       ),
