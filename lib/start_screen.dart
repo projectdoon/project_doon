@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mydoon/register.dart';
+import 'package:mydoon/register_Screen1.dart';
 import 'authServices/auth.dart';
 
 import 'OTP_Screen.dart';
@@ -77,7 +78,7 @@ class _StartScreenState extends State<StartScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RegisterScreen()),
+                              builder: (context) => const RegisterScreen1()),
                         );
                       }
                     } catch (e) {

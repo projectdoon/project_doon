@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mydoon/register_Screen2.dart';
 
 class RegisterScreen1 extends StatefulWidget {
   const RegisterScreen1({super.key});
@@ -31,12 +32,13 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
               Container(
                 padding: const EdgeInsets.only(left: 16.0),
                 alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 0, top: 115),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 0, top: 115),
                   child: Text(
                     'Register',
-                    style: GoogleFonts.poppins(
-                      fontSize: 45,
+                    style: TextStyle(
+                      fontFamily: 'FontMain/Product Sans Bold.ttf',
+                      fontSize: 50,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -221,7 +223,7 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), // Button padding
                   ),
                   onPressed: () {
-                    // Your onPressed logic here
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => const RegisterScreen2 ()));
                   },
                   child: const Text(
                     'Next',
