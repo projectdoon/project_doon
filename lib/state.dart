@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mydoon/register.dart';
 import 'package:mydoon/register_Screen1.dart';
 
-import 'home.dart';
 
 class CheckState extends StatelessWidget {
   const CheckState({super.key});
@@ -17,7 +16,7 @@ class CheckState extends StatelessWidget {
             return const CircularProgressIndicator();
           }
           if (snapshot.hasData) {
-            return const RegisterScreen1();
+            return RegisterScreen1(emailid: '',);
           }
           else {
             return RegisterScreen(); //

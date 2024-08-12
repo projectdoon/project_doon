@@ -23,6 +23,8 @@ class AuthService {
     return null;
   }
 
+
+
   Future<Map<String, dynamic>?> getUserDetails() async {
     User? user = _auth.currentUser;
     if (user != null) {

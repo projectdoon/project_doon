@@ -68,19 +68,7 @@ class _HomePageState extends State<HomePage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              TextField(
-                controller: _NameController,
-                keyboardType: TextInputType.name,
-                autofocus: true,
-                decoration: const InputDecoration(labelText: 'Enter Your Name'),
-              ),
-              TextField(
-                controller: _NameController,
-                keyboardType: TextInputType.name,
-                autofocus: true,
-                decoration:
-                    const InputDecoration(labelText: 'Enter Your PhoneNumber'),
-              ),
+
               const SizedBox(height: 20,),
 
               Text(LocationMessage),

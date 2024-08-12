@@ -5,7 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mydoon/register.dart';
+import 'package:mydoon/register_Screen1.dart';
+
 import 'package:pinput/pinput.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -121,7 +122,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RegisterScreen(),
+                          builder: (context) => RegisterScreen1(emailid: '',),
                         ),
                       );
                     });

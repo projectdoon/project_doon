@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mydoon/Backend/MongoDB.dart';
-import 'package:mydoon/register.dart';
 import 'package:mydoon/register_Screen1.dart';
 import 'package:mydoon/register_Screen2.dart';
 import 'package:mydoon/start_screen.dart';

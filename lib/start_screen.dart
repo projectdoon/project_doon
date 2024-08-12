@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mydoon/register.dart';
 import 'package:mydoon/register_Screen1.dart';
 import 'authServices/auth.dart';
 
@@ -25,10 +24,11 @@ class _StartScreenState extends State<StartScreen> {
   var phoneNumberInput = null;
   final _auth = AuthService();
   String phoneNo = "+91";
+  late String email;
 
   @override
   void dispose() {
-    _phoneNumberController.dispose();
+  _phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -49,15 +49,15 @@ class _StartScreenState extends State<StartScreen> {
                 alignment: Alignment.center,
                 child: const Padding(
                   padding: EdgeInsets.only(left: 0, top: 115),
-                  child:Text(
-                  'Welcome',
-                  style: TextStyle(
-                    fontFamily: 'FontMain/Product Sans Bold.ttf',
-                    fontSize: 50,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                  child: Text(
+                    'Welcome',
+                    style: TextStyle(
+                      fontFamily: 'FontMain/Product Sans Bold.ttf',
+                      fontSize: 50,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
                 ),
               ),
               const SizedBox(height: 45),
@@ -73,12 +73,14 @@ class _StartScreenState extends State<StartScreen> {
                       if (userCredential != null) {
                         Map<String, dynamic>? userDetails =
                             await authService.getUserDetails();
-                        print('$userDetails');
+
+                        email=userDetails?['email'];
 
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RegisterScreen1()),
+                            builder: (context) => RegisterScreen1(emailid: email,),
+                          ),
                         );
                       }
                     } catch (e) {
@@ -88,8 +90,8 @@ class _StartScreenState extends State<StartScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    shadowColor: Color.fromARGB(255, 24, 118, 210),
-                    padding: EdgeInsets.only(top: 13, bottom: 13),
+                    shadowColor: const Color.fromARGB(255, 24, 118, 210),
+                    padding: const EdgeInsets.only(top: 13, bottom: 13),
                     side: const BorderSide(
                       width: 1,
                       color: Colors.black,
@@ -166,14 +168,13 @@ class _StartScreenState extends State<StartScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-
                 children: [
-
                   Padding(
                     padding: const EdgeInsets.only(right: 30),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 24, 118, 210),
+                        backgroundColor:
+                            const Color.fromARGB(255, 24, 118, 210),
                         elevation: 0.1,
                       ),
                       child: const Icon(
@@ -202,8 +203,11 @@ class _StartScreenState extends State<StartScreen> {
                       //     phoneNumber: phoneNo.toString(),
                       //   );
                       // },
-                      onPressed: (){
-
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => RegisterScreen1(emailid: email,)));
                       },
                     ),
                   ),

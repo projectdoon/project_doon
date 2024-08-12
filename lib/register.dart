@@ -26,7 +26,7 @@ class RegisterScreen extends StatelessWidget {
                 AuthService authService = AuthService();
                 if (userCredential != null) {
                   Map<String, dynamic>? userDetails = await authService.getUserDetails();
-                  print('$userDetails');
+                  String email =userDetails?['email'];
 
                   Navigator.pushReplacement(
                     context,
