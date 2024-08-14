@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mydoon/register.dart';
 import 'package:mydoon/register_Screen1.dart';
 
-
 class CheckState extends StatelessWidget {
   const CheckState({super.key});
 
