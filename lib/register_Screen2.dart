@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:mydoon/Backend/MongoDB.dart';
+import 'package:mydoon/Home_Screen_ui/home_screen.dart';
 
 import 'Backend/MongoDBModel.dart';
 
@@ -71,7 +72,8 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
     }
   } //
 
-  Future<void> _insertdata(var fname,var lname ,String email,var phoneno, var lat, var long) async {
+  Future<void> _insertdata(var fname, var lname, String email, var phoneno,
+      var lat, var long) async {
     print('cllllll');
     var _id = mongo.ObjectId();
     final data = MongoDbModel(
@@ -86,9 +88,10 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
         currentlocationLongitutde: 0);
 
     var result = await MongoDatabase.insert(data);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('registered successfully !!'),));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('registered successfully !!'),
+    ));
     _clearAll();
-
   }
 
   @override
@@ -281,7 +284,17 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                                 horizontal: 20, vertical: 12),
                           ),
                           onPressed: () {
-                            _insertdata(widget.fname,widget.lname,widget.email.toString(),widget.phoneno, lat, long);
+                            _insertdata(
+                                widget.fname,
+                                widget.lname,
+                                widget.email.toString(),
+                                widget.phoneno,
+                                lat,
+                                long);
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => const HomeScreen()));
                             // Navigator.push(context, CupertinoPageRoute(builder: (context) => const Homeui()));
                           },
                           child: const Text(
@@ -303,10 +316,11 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
       ),
     );
   }
-  void _clearAll(){
-    widget.fname.text='';
-   widget.lname.text='';
-    widget.phoneno.text='';
-    widget.email='';
+
+  void _clearAll() {
+    widget.fname.text = '';
+    widget.lname.text = '';
+    widget.phoneno.text = '';
+    widget.email = '';
   }
 }
