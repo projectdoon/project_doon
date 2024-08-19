@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:mydoon/Backend/MongoDB.dart';
+import 'package:mydoon/Home_Screen_ui/Navigation_menu.dart';
 import 'package:mydoon/Home_Screen_ui/home_screen.dart';
 
 import 'Backend/MongoDBModel.dart';
@@ -294,7 +295,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                             Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                    builder: (context) => const HomeScreen()));
+                                    builder: (context) => const NavigationMenu()));
                             // Navigator.push(context, CupertinoPageRoute(builder: (context) => const Homeui()));
                           },
                           child: const Text(

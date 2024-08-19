@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryIcons extends StatefulWidget {
   const CategoryIcons({super.key});
@@ -24,20 +25,23 @@ class _CategoryIconsState extends State<CategoryIcons> {
               splashColor: Color.fromARGB(50, 255, 255, 255),
               onTap: () {},
               child: Ink(
+
                 height: 68,
                 width: 68,
                 decoration: BoxDecoration(
                   image: const DecorationImage(
-                      image: AssetImage('assets/Paper_light@3x.png'),scale: 2.7),
+                      image: AssetImage('assets/Paper_light@3x.png'),
+                      scale: 2.7),
                   border: Border.all(
                       color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
                   color: const Color.fromARGB(255, 176, 205, 249),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-
             ),
-            SizedBox(height: 8,),
+            SizedBox(
+              height: 8,
+            ),
             Text('Complains'),
           ],
         ),
@@ -50,9 +54,14 @@ class _CategoryIconsState extends State<CategoryIcons> {
               child: Ink(
                 height: 68,
                 width: 68,
+                child: Container(
+
+                  padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                    child: SvgPicture.asset(
+                  'assets/Rupee Sign.svg',
+                  height: 5,
+                )),
                 decoration: BoxDecoration(
-                  image: const DecorationImage(
-                      image: AssetImage('assets/Rupee Sign.png'),scale: 0.9),
                   border: Border.all(
                       color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
                   color: const Color.fromARGB(255, 176, 205, 249),
@@ -60,7 +69,9 @@ class _CategoryIconsState extends State<CategoryIcons> {
                 ),
               ),
             ),
-            SizedBox(height: 8,),
+            SizedBox(
+              height: 8,
+            ),
             Text('Bills'),
           ],
         ),
@@ -73,9 +84,15 @@ class _CategoryIconsState extends State<CategoryIcons> {
               child: Ink(
                 height: 68,
                 width: 68,
+                child: Container(
+
+                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                    child: SvgPicture.asset(
+                      'assets/notebook_light.svg',
+
+                    )),
                 decoration: BoxDecoration(
-                  image: const DecorationImage(
-                      image: AssetImage('assets/Component 7.png'),scale: 1),
+
                   border: Border.all(
                       color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
                   color: const Color.fromARGB(255, 176, 205, 249),
@@ -83,8 +100,13 @@ class _CategoryIconsState extends State<CategoryIcons> {
                 ),
               ),
             ),
-            SizedBox(height: 8,),
-            Text('Animal\nWelfare',style: TextStyle(fontSize: 12),),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              'Animal\nWelfare',
+              style: TextStyle(fontSize: 12),
+            ),
           ],
         ),
         Column(
@@ -96,9 +118,15 @@ class _CategoryIconsState extends State<CategoryIcons> {
               child: Ink(
                 height: 68,
                 width: 68,
+                child: Container(
+
+                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                    child: SvgPicture.asset(
+                      'assets/Component 8.svg',
+
+                    )),
+
                 decoration: BoxDecoration(
-                  image: const DecorationImage(
-                      image: AssetImage('assets/Component 8.png'),scale: 0.95),
                   border: Border.all(
                       color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
                   color: const Color.fromARGB(255, 176, 205, 249),
@@ -106,8 +134,14 @@ class _CategoryIconsState extends State<CategoryIcons> {
                 ),
               ),
             ),
-            SizedBox(height: 8,),
-            Text('Vehicle\n   info',style: TextStyle(fontSize: 12),),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              'Vehicle\n   info',
+              style: TextStyle(fontSize: 12),
+            ),
+
           ],
         ),
       ],
