@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../User Profile/profileSection.dart';
 import 'Category_Second_Row.dart';
 import 'category_icons.dart';
 
@@ -104,7 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         IconButton(
                           iconSize: 27,
                           icon: const Icon(Icons.notifications_on_outlined),
-                          onPressed: () {},
+                          onPressed: () {
+                            Scaffold.of(context).openDrawer();
+                          },
                         ),
                       ],
                     )

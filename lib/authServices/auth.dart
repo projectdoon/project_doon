@@ -8,6 +8,7 @@ class AuthService {
     _auth.setPersistence(Persistence.LOCAL);
   }
 
+
   Future<UserCredential?> logInWithGoogle() async {
     try {
       final googleUser = await GoogleSignIn().signIn();
@@ -22,7 +23,6 @@ class AuthService {
     }
     return null;
   }
-
 
 
   Future<Map<String, dynamic>?> getUserDetails() async {

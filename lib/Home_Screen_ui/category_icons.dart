@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'Complains/complainExpanded.dart';
+
 class CategoryIcons extends StatefulWidget {
   const CategoryIcons({super.key});
 
@@ -23,7 +25,12 @@ class _CategoryIconsState extends State<CategoryIcons> {
             InkWell(
               borderRadius: BorderRadius.circular(10),
               splashColor: Color.fromARGB(50, 255, 255, 255),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => complainExpanded()),
+                );
+              },
               child: Ink(
 
                 height: 68,

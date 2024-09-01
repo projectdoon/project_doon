@@ -190,7 +190,7 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        const Color.fromARGB(255, 0, 87, 115), // Button color
+                        const Color.fromARGB(225, 24, 118, 210), // Button color
                     elevation: 5.0, // Button shadow
                     shape: RoundedRectangleBorder(
                       borderRadius:

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mydoon/Home_Screen_ui/Complains/quickDraglist.dart';
 
 class CategorySecondRow extends StatefulWidget{
   const CategorySecondRow({super.key});
@@ -56,7 +57,16 @@ class  _CategorySecondRowState extends State<CategorySecondRow>{
             InkWell(
               borderRadius: BorderRadius.circular(10),
               splashColor: Color.fromARGB(52, 0, 126, 253),
-              onTap: () {},
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                  builder: (context) => DragList(),
+                );
+              },
               child: Ink(
                 child: Container(
 

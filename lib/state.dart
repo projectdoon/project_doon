@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mydoon/register.dart';
-import 'package:mydoon/register_Screen1.dart';
+
+import 'package:mydoon/start_screen.dart';
+
+import 'Home_Screen_ui/Navigation_menu.dart';
 
 class CheckState extends StatelessWidget {
   const CheckState({super.key});
@@ -15,12 +17,14 @@ class CheckState extends StatelessWidget {
             return const CircularProgressIndicator();
           }
           if (snapshot.hasData) {
-            return RegisterScreen1(emailid: '',);
+            return NavigationMenu();
           }
           else {
-            return RegisterScreen(); //
+            return NavigationMenu(); //
           }
         }
     );
   }
 }
+
+

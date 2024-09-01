@@ -123,7 +123,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                       ),
                       onPressed: () {},
                     ),
-                    Expanded(child: Container()), // Spacer
+                   //  Expanded(child: Container()), // Spacer
                   ],
                 ),
               ),
@@ -295,7 +295,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                             Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                    builder: (context) => const NavigationMenu()));
+                                    builder: (context) =>  NavigationMenu()));
                             // Navigator.push(context, CupertinoPageRoute(builder: (context) => const Homeui()));
                           },
                           child: const Text(

@@ -1,10 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mydoon/Backend/MongoDB.dart';
-import 'package:mydoon/register_Screen1.dart';
-import 'package:mydoon/register_Screen2.dart';
-import 'package:mydoon/start_screen.dart';
 import 'package:mydoon/state.dart';
+import 'Home_Screen_ui/Navigation_menu.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -14,9 +13,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
+    theme: ThemeData(
+      useMaterial3: true,
+      colorSchemeSeed: Colors.blue,
+    ),
     debugShowCheckedModeBanner: false,
-    home: StartScreen(),))
+    home: const CheckState(),))
   ;
 }
 
