@@ -12,7 +12,6 @@ class MongoDbModel {
   var id;
   var firstName;
   var lastName;
-  String email;
   var phoneNo;
   var homelocationLatitude;
   var homelocationLongitutde;
@@ -23,7 +22,6 @@ class MongoDbModel {
     required this.id,
     required this.firstName,
     required this.lastName,
-    required this.email,
     required this.phoneNo,
     required this.homelocationLatitude,
     required this.homelocationLongitutde,
@@ -35,7 +33,6 @@ class MongoDbModel {
     id: json["_id"],
     firstName: json["FirstName"],
     lastName: json["LastName"],
-    email: json["email"],
     phoneNo: json["phoneNo"],
     homelocationLatitude: json["Homelocation_latitude"]?.toDouble(),
     homelocationLongitutde: json["Homelocation_longitutde"]?.toDouble(),
@@ -47,7 +44,6 @@ class MongoDbModel {
     "_id": id,
     "FirstName": firstName,
     "LastName": lastName,
-    "email": email,
     "phoneNo": phoneNo,
     "Homelocation_latitude": homelocationLatitude,
     "Homelocation_longitutde": homelocationLongitutde,

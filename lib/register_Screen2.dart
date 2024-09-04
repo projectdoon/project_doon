@@ -16,13 +16,11 @@ class RegisterScreen2 extends StatefulWidget {
     required this.fname,
     required this.lname,
     required this.phoneno,
-    required this.email,
   });
 
   final fname;
   final lname;
   var phoneno;
-  String email;
 
   @override
   State<RegisterScreen2> createState() => _RegisterScreen2State();
@@ -56,9 +54,8 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
       print(widget.fname);
       lat = currentPosition.latitude;
       long = currentPosition.longitude;
-      print('hiiii3');
+
       print(lat);
-      print(widget.email);
       print(long);
       List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
 
@@ -73,7 +70,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
     }
   } //
 
-  Future<void> _insertdata(var fname, var lname, String email, var phoneno,
+  Future<void> _insertdata(var fname, var lname,  var phoneno,
       var lat, var long) async {
     print('cllllll');
     var _id = mongo.ObjectId();
@@ -81,7 +78,6 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
         id: _id,
         firstName: fname,
         lastName: lname,
-        email: email,
         phoneNo: phoneno,
         homelocationLatitude: lat,
         homelocationLongitutde: long,
@@ -288,10 +284,9 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                             _insertdata(
                                 widget.fname,
                                 widget.lname,
-                                widget.email.toString(),
                                 widget.phoneno,
                                 lat,
-                                long);
+                                long,);
                             Navigator.push(
                                 context,
                                 CupertinoPageRoute(
@@ -322,6 +317,5 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
     widget.fname.text = '';
     widget.lname.text = '';
     widget.phoneno.text = '';
-    widget.email = '';
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mydoon/register_Screen1.dart';
 import 'authServices/auth.dart';
 
@@ -28,7 +27,7 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   void dispose() {
-  _phoneNumberController.dispose();
+    _phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -74,12 +73,12 @@ class _StartScreenState extends State<StartScreen> {
                         Map<String, dynamic>? userDetails =
                             await authService.getUserDetails();
 
-                        email=userDetails?['email'];
+                        email = userDetails?['email'];
 
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RegisterScreen1(emailid: email,),
+                            builder: (context) => RegisterScreen1(),
                           ),
                         );
                       }
@@ -182,32 +181,26 @@ class _StartScreenState extends State<StartScreen> {
                         color: Colors.white,
                         size: 30, // Icon color
                       ),
-                      // onPressed: () async {
-                      //   phoneNo =
-                      //       phoneNo + _phoneNumberController.text.toString();
-                      //   await FirebaseAuth.instance.verifyPhoneNumber(
-                      //     verificationCompleted:
-                      //         (PhoneAuthCredential credential) {},
-                      //     verificationFailed: (FirebaseAuthException ex) {},
-                      //     codeSent: (String verificationid, int? resendToken) {
-                      //       Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (context) => OTPScreen(
-                      //             verificationID: verificationid,
-                      //           ),
-                      //         ),
-                      //       );
-                      //     },
-                      //     codeAutoRetrievalTimeout: (String verificationId) {},
-                      //     phoneNumber: phoneNo.toString(),
-                      //   );
-                      // },
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => RegisterScreen1(emailid: email,)));
+                      onPressed: () async {
+                        phoneNo =
+                            phoneNo + _phoneNumberController.text.toString();
+                        await FirebaseAuth.instance.verifyPhoneNumber(
+                          verificationCompleted:
+                              (PhoneAuthCredential credential) {},
+                          verificationFailed: (FirebaseAuthException ex) {},
+                          codeSent: (String verificationid, int? resendToken) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OTPScreen(
+                                  verificationID: verificationid,
+                                ),
+                              ),
+                            );
+                          },
+                          codeAutoRetrievalTimeout: (String verificationId) {},
+                          phoneNumber: phoneNo.toString(),
+                        );
                       },
                     ),
                   ),

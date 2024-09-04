@@ -6,9 +6,8 @@ import 'package:mydoon/register_Screen2.dart';
 import 'package:mydoon/start_screen.dart';
 
 class RegisterScreen1 extends StatefulWidget {
-  RegisterScreen1({super.key,required this.emailid});
+  RegisterScreen1({super.key});
 
-  String emailid;
 
   @override
   State<RegisterScreen1> createState() => _RegisterScreen1State();
@@ -200,7 +199,6 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                         horizontal: 20, vertical: 12), // Button padding
                   ),
                   onPressed: () {
-                    print(widget.emailid);
                     Navigator.push(
                         context,
                         CupertinoPageRoute(
@@ -208,7 +206,6 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                                   fname: firstNameController.text,
                                   lname: lastNameController.text,
                                   phoneno: phoneNumberController.text,
-                              email: widget.emailid,
                                 )));
                   },
                   child: const Text(
