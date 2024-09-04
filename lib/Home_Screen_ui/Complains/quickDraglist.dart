@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mydoon/Home_Screen_ui/Complains/quicDragIsregister.dart';
 
-import 'isRegister.dart';
+import '../home_screen.dart';
 
 class DragList extends StatefulWidget {
   const DragList({super.key});
@@ -12,12 +12,24 @@ class DragList extends StatefulWidget {
 }
 
 class _DragListState extends State<DragList> {
+
   List<String> itemsofComplain = ["Garbage Collection", "Dead Animal", "Water Leakage"];
   String? index;
 
   @override
   Widget build(BuildContext context) {
+
+    void addToUserComplain() {
+      print('added succesfully');
+      userComplain.add({"message": "You Registered a complain",});
+      Navigator.pop(context);
+    }
+
+
+    double displaySize = MediaQuery.of(context).size.width;
     return DraggableScrollableSheet(
+      initialChildSize: 0.55,
+      maxChildSize: 0.85,
       expand: false,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
@@ -104,50 +116,209 @@ class _DragListState extends State<DragList> {
 
                 const SizedBox(height: 25),
 
-                // upload picture
-                Container(
-              width: 450,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 24, 118, 210),
-                    elevation: 2.0, // Button shadow
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12), // Button padding
-                  ),
-                  onPressed: () async {
 
-                  },
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.upload_rounded,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        'Upload A Picture',
-                        style: TextStyle(
-                          color: Colors.white, // Text color
-                          fontSize: 16, // Text size
+
+                Row(
+
+                  children: [
+
+                    Container(
+                      width: displaySize * 0.45,
+                      height: 150,
+                      padding: const EdgeInsets.only(left: 15,),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 24, 118, 210),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(22.0), // Rounded corners
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: const Padding(
+                          padding: EdgeInsets.only(top:20,),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.upload,
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                'Upload an Image',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12, // Text size
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+
+                              SizedBox(height: 16),
+
+                              // Align(
+                              //   alignment: Alignment.centerLeft,
+                              //   child: Text(
+                              //     'One Click Register! ',
+                              //     style: TextStyle(
+                              //         color: Colors.white,
+                              //         fontSize: 10, // Text size
+                              //     ),
+                              //   ),
+                              // ),
+
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                    ),
 
+                    SizedBox(width: 16),
+
+                    Container(
+                      width: displaySize * 0.42,
+                      height: 150,
+                      padding: const EdgeInsets.only(right: 5,),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 24, 118, 210),
+                          elevation: 2.0, // Button shadow
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(22.0), // Rounded corners
+                          ),
+                        ),
+                        onPressed: () {  },
+                        child: Padding(
+                          padding: EdgeInsets.only(top:20,),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.mic,
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                'Press and Hold',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12, // Text size
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+
+                              SizedBox(height: 16),
+
+                              // Align(
+                              //   alignment: Alignment.centerLeft,
+                              //   child: Text(
+                              //     'One Click Register! ',
+                              //     style: TextStyle(
+                              //         color: Colors.white,
+                              //         fontSize: 10, // Text size
+                              //     ),
+                              //   ),
+                              // ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  ],
+
+                ),
+
+
+                // const SizedBox(height: 35),
+
+                //     Container(
+            //   width: 450,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(left: 30, right: 30),
+            //     child: ElevatedButton(
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: const Color.fromARGB(255, 24, 118, 210),
+            //         elevation: 2.0, // Button shadow
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(10.0), // Rounded corners
+            //         ),
+            //         padding: const EdgeInsets.symmetric(
+            //             horizontal: 20, vertical: 12), // Button padding
+            //       ),
+            //       onPressed: () async {
+            //
+            //       },
+            //       child: const Row(
+            //         mainAxisSize: MainAxisSize.min,
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           Icon(
+            //             Icons.upload_rounded,
+            //             color: Colors.white,
+            //           ),
+            //           SizedBox(width: 8),
+            //           Text(
+            //             'Upload A Picture',
+            //             style: TextStyle(
+            //               color: Colors.white, // Text color
+            //               fontSize: 16, // Text size
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+
+
+                // const SizedBox(height: 35),
+                //
+                // // speak to complain
+                // Container(
+                //   width: 450,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(left: 30, right: 30),
+                //     child: ElevatedButton(
+                //       style: ElevatedButton.styleFrom(
+                //         backgroundColor: const Color.fromARGB(255, 24, 118, 210),
+                //         elevation: 2.0, // Button shadow
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                //         ),
+                //         padding: const EdgeInsets.symmetric(
+                //             horizontal: 20, vertical: 12), // Button padding
+                //       ),
+                //       onPressed: () async {
+                //
+                //       },
+                //       child: Row(
+                //         mainAxisSize: MainAxisSize.min,
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: const [
+                //           Icon(
+                //             Icons.mic,
+                //             color: Colors.white,
+                //           ),
+                //           SizedBox(width: 8),
+                //           Text(
+                //             'Speak To Conplain',
+                //             style: TextStyle(
+                //               color: Colors.white, // Text color
+                //               fontSize: 16, // Text size
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                //
 
                 const SizedBox(height: 35),
 
-                // speak to complain
                 Container(
                   width: 450,
                   child: Padding(
@@ -162,50 +333,10 @@ class _DragListState extends State<DragList> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 12), // Button padding
                       ),
-                      onPressed: () async {
+                      onPressed: ()  {
 
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.mic,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            'Speak To Conplain',
-                            style: TextStyle(
-                              color: Colors.white, // Text color
-                              fontSize: 16, // Text size
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                        addToUserComplain();
 
-
-                const SizedBox(height: 35),
-
-                // register  a complain
-                Container(
-                  width: 450,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30, right: 30),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 24, 118, 210),
-                        elevation: 2.0, // Button shadow
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12), // Button padding
-                      ),
-                      onPressed: () async {
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
@@ -222,10 +353,11 @@ class _DragListState extends State<DragList> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Register A complain',
+                            'Register a complain',
                             style: TextStyle(
                               color: Colors.white, // Text color
                               fontSize: 16, // Text size
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -233,7 +365,6 @@ class _DragListState extends State<DragList> {
                     ),
                   ),
                 ),
-
 
               ],
             ),
@@ -243,3 +374,4 @@ class _DragListState extends State<DragList> {
     );
   }
 }
+

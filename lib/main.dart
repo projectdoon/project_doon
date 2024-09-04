@@ -19,7 +19,10 @@ void main() async {
       colorSchemeSeed: Colors.blue,
     ),
     debugShowCheckedModeBanner: false,
-    home: const CheckState(),))
+    home:  NavigationMenu(),))
   ;
 }
+
+
+
 

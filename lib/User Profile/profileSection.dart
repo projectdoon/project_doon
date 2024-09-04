@@ -106,8 +106,12 @@ class _UserProfileState extends State<UserProfile> {
     // Navigator.pop(context);
     switch (index) {
       case 0:
-         // Navigator.pop(context);
+         Navigator.pop(context);
         break;
+
+      case 1:
+        Navigator.pop(context);
+         break;
     }
   }
 
@@ -143,11 +147,6 @@ class _UserProfileState extends State<UserProfile> {
         ],
       ),
     );
-  }
-
-  signOutWithGoogle() async {
-    // await GoogleSignIn().signOut();
-    await FirebaseAuth.instance.signOut();
   }
 
 

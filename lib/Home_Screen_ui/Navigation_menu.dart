@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import '../User Profile/MyComplain.dart';
 import '../User Profile/drawerItems.dart';
 import '../User Profile/profileSection.dart';
 import 'Services_screen.dart';
 import 'home_screen.dart';
+
 
 class NavigationMenu extends StatelessWidget {
   NavigationMenu({super.key});
@@ -18,7 +20,11 @@ class NavigationMenu extends StatelessWidget {
     // Get the width of the screen
     final screenWidth = MediaQuery.of(context).size.width;
 
+
     return Scaffold(
+
+
+
       key: _scaffoldKey,
       endDrawer: Container(
         width: screenWidth * 0.72,
@@ -125,6 +131,11 @@ class NavigationMenu extends StatelessWidget {
       case 0:
       Navigator.pop(context);
         break;
+
+      case 1:
+        Navigator.push(context, CupertinoPageRoute(builder: (context) =>  myComplain()));
+        break;
+
     }
   }
 

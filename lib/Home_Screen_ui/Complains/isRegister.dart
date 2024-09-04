@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../Navigation_menu.dart';
 
@@ -51,11 +52,14 @@ class _IsregisterState extends State<Isregister> {
               margin: const EdgeInsets.only(top: 16),
               width: MediaQuery.of(context).size.width * 0.7,
               height: MediaQuery.of(context).size.height * 0.3,
+              // child: SvgPicture.asset(
+              //   'assets/Ok-amico 1.svg',
+              //   fit: BoxFit.cover,
+              // ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 image: DecorationImage(
                   image: AssetImage('assets/Male Memojis.png'),
-                  
                   fit: BoxFit.cover,
                 ),
               ),

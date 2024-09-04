@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../Navigation_menu.dart';
+import '../home_screen.dart';
 
 class Quick_DragIsRegister extends StatefulWidget {
   const Quick_DragIsRegister({super.key});
@@ -13,6 +13,8 @@ class Quick_DragIsRegister extends StatefulWidget {
 class _Quick_DragIsRegisterState extends State<Quick_DragIsRegister> {
   @override
   Widget build(BuildContext context) {
+
+
     return  DraggableScrollableSheet(
       expand: false,
       builder: (BuildContext context, ScrollController scrollController) {
@@ -47,17 +49,12 @@ class _Quick_DragIsRegisterState extends State<Quick_DragIsRegister> {
 
                 Container(
                   margin: const EdgeInsets.only(top: 16),
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   height: MediaQuery.of(context).size.height * 0.2,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/Male Memojis.png'),
-
-                      fit: BoxFit.cover,
-                    ),
+                      child: Image.asset(
+                        'assets/Male Memojis.png',
+                      )
                   ),
-                ),
 
                 SizedBox(height: 20),
 
@@ -116,6 +113,6 @@ class _Quick_DragIsRegisterState extends State<Quick_DragIsRegister> {
             ),
           );
       },
-    );;
+    );
   }
 }

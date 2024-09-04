@@ -20,7 +20,7 @@ class CheckState extends StatelessWidget {
             return NavigationMenu();
           }
           else {
-            return NavigationMenu(); //
+            return NavigationMenu();
           }
         }
     );

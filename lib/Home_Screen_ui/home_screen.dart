@@ -10,6 +10,7 @@ import 'Category_Second_Row.dart';
 import 'category_icons.dart';
 
 
+List<Map<String, String>> userComplain = [];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -211,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     EdgeInsets.only(top: 15, right: 18, left: 18, bottom: 41),
                 height: 100,
                 decoration: BoxDecoration(
-
+                    // color: Colors.black,
                     color: Color.fromARGB(26, 255, 0, 0),
                     borderRadius: BorderRadius.circular(20)),
               ),
