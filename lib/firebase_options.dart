@@ -63,6 +63,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '3006431084',
     projectId: 'mydoonapp-4ccea',
     storageBucket: 'mydoonapp-4ccea.appspot.com',
+    androidClientId: '3006431084-ul8j6nev700d4nfbtnsskgd920jgq722.apps.googleusercontent.com',
+    iosClientId: '3006431084-2vpv7e2fqas2th4vc1nun6muoesgqf6p.apps.googleusercontent.com',
     iosBundleId: 'com.example.mydoon',
   );
+
 }

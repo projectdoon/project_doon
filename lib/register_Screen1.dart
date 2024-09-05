@@ -6,7 +6,9 @@ import 'package:mydoon/register_Screen2.dart';
 import 'package:mydoon/start_screen.dart';
 
 class RegisterScreen1 extends StatefulWidget {
-  RegisterScreen1({super.key});
+  RegisterScreen1({super.key,required this.phoneNo});
+
+  var phoneNo;
 
 
   @override
@@ -16,7 +18,7 @@ class RegisterScreen1 extends StatefulWidget {
 class _RegisterScreen1State extends State<RegisterScreen1> {
   final firstNameController = new TextEditingController();
   final lastNameController = new TextEditingController();
-  final phoneNumberController = new TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,29 +108,7 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
 
               const SizedBox(height: 27),
 
-              Container(
-                height: 45,
-                width: 325,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1.0,
-                  ),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(8),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: TextField(
-                  controller: phoneNumberController,
-                  decoration: const InputDecoration(
-                      hintText: 'Mobile Number as Per Aadhar',
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.only(left: 16.0)),
-                ),
-              ),
+
 
               const SizedBox(height: 27),
 
@@ -203,9 +183,9 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                         context,
                         CupertinoPageRoute(
                             builder: (context) => RegisterScreen2(
-                                  fname: firstNameController.text,
-                                  lname: lastNameController.text,
-                                  phoneno: phoneNumberController.text,
+                                  fname: firstNameController,
+                                  lname: lastNameController,
+                                   phoneno: widget.phoneNo,
                                 )));
                   },
                   child: const Text(

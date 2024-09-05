@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mydoon/register_Screen1.dart';
 import 'authServices/auth.dart';
 
@@ -60,77 +61,9 @@ class _StartScreenState extends State<StartScreen> {
                 ),
               ),
               const SizedBox(height: 45),
-              //google login button
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      UserCredential? userCredential =
-                          await _auth.logInWithGoogle();
-                      AuthService authService = AuthService();
-                      if (userCredential != null) {
-                        Map<String, dynamic>? userDetails =
-                            await authService.getUserDetails();
-
-                        email = userDetails?['email'];
-
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegisterScreen1(),
-                          ),
-                        );
-                      }
-                    } catch (e) {
-                      if (kDebugMode) {
-                        print("Error logging in with Google: $e");
-                      }
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shadowColor: const Color.fromARGB(255, 24, 118, 210),
-                    padding: const EdgeInsets.only(top: 13, bottom: 13),
-                    side: const BorderSide(
-                      width: 1,
-                      color: Colors.black,
-                    ),
-                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/google-icon.svg', // Ensure this path is correct
-                        height: 19,
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        'CONTINUE WITH GOOGLE',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'FontMain/Product Sans Bold.ttf',
-                          color: Color.fromARGB(255, 0, 0, 0),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              //google login button end
               const SizedBox(
                 height: 25,
               ),
-
-              Image.asset('assets/Or_frame.png'),
-              const SizedBox(
-                height: 25,
-              ),
-
               Container(
                 height: 45,
                 width: 325,
@@ -181,25 +114,38 @@ class _StartScreenState extends State<StartScreen> {
                         color: Colors.white,
                         size: 30, // Icon color
                       ),
-                      onPressed: () async {
+                      // onPressed: () async {
+                      //   phoneNo =
+                      //       phoneNo + _phoneNumberController.text.toString();
+                      //   await FirebaseAuth.instance.verifyPhoneNumber(
+                      //     verificationCompleted:
+                      //         (PhoneAuthCredential credential) {},
+                      //     verificationFailed: (FirebaseAuthException ex) {},
+                      //     codeSent: (String verificationid, int? resendToken) {
+                      //       Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) => OTPScreen(
+                      //             verificationID: verificationid,
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //     codeAutoRetrievalTimeout: (String verificationId) {},
+                      //     phoneNumber: phoneNo.toString(),
+                      //   );
+                      // },
+                      onPressed: () {
                         phoneNo =
                             phoneNo + _phoneNumberController.text.toString();
-                        await FirebaseAuth.instance.verifyPhoneNumber(
-                          verificationCompleted:
-                              (PhoneAuthCredential credential) {},
-                          verificationFailed: (FirebaseAuthException ex) {},
-                          codeSent: (String verificationid, int? resendToken) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OTPScreen(
-                                  verificationID: verificationid,
-                                ),
-                              ),
-                            );
-                          },
-                          codeAutoRetrievalTimeout: (String verificationId) {},
-                          phoneNumber: phoneNo.toString(),
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => OTPScreen(
+                              verificationID: '443424',
+                              phoneNo: _phoneNumberController,
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -209,9 +155,8 @@ class _StartScreenState extends State<StartScreen> {
               const SizedBox(
                 height: 70,
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(top: 40),
+              Container(
+                margin: const EdgeInsets.only(top: 150),
                 child: Image.asset(
                   'assets/loginscreenabstract.png',
                 ),

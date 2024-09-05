@@ -12,7 +12,20 @@
           "package_name": "com.example.mydoon"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "3006431084-ul8j6nev700d4nfbtnsskgd920jgq722.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mydoon",
+            "certificate_hash": "60eac36e55a61584253d1b58f49811bfcb7dbfe8"
+          }
+        },
+        {
+          "client_id": "3006431084-dhnltlvqaov4fidirdeqbc4ilgghrk9u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBVtdvQ93QZjSV09gA5mBkOhaU27diZOaI"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3006431084-dhnltlvqaov4fidirdeqbc4ilgghrk9u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "3006431084-2vpv7e2fqas2th4vc1nun6muoesgqf6p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mydoon"
+              }
+            }
+          ]
         }
       }
     }

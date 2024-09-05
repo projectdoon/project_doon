@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -10,9 +11,10 @@ import 'package:mydoon/register_Screen1.dart';
 import 'package:pinput/pinput.dart';
 
 class OTPScreen extends StatefulWidget {
-  OTPScreen({super.key, required this.verificationID});
+  OTPScreen({super.key, required this.verificationID, required this.phoneNo});
 
   String verificationID;
+  var phoneNo;
 
   @override
   State<OTPScreen> createState() {
@@ -52,7 +54,7 @@ class _OTPScreenState extends State<OTPScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 83, 185, 216),
+          color: Color.fromARGB(255, 255, 255, 255),
         ),
         width: double.infinity,
         height: double.infinity,
@@ -65,24 +67,49 @@ class _OTPScreenState extends State<OTPScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 28, top: 120),
                   child: Text(
-                    'ENTER YOUR OTP',
+                    'OTP',
                     style: GoogleFonts.poppins(
                       fontSize: 30,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 15),
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 30),
+                    child: Text(
+                      'NOT RECIEVED?',
+                    ),
+                  ),
+                  Container(
+                    child: TextButton(
+                      style: TextButton.styleFrom(foregroundColor: Colors.blue),
+                      child: Text('CHANGE NUMBER'),
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
               Pinput(
                 keyboardType: TextInputType.phone,
-                autofocus: true,
+                autofocus: false,
                 length: 6,
                 defaultPinTheme: defaultPinTheme,
+                followingPinTheme: defaultPinTheme.copyWith(
+                  decoration: defaultPinTheme.decoration!.copyWith(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    border: Border.all(color: Colors.black),
+                  ),
+                ),
                 focusedPinTheme: defaultPinTheme.copyWith(
                   decoration: defaultPinTheme.decoration!.copyWith(
-                    border: Border.all(color: Colors.white),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    border: Border.all(color: Colors.black),
                   ),
                 ),
                 onChanged: (value) {
@@ -92,54 +119,59 @@ class _OTPScreenState extends State<OTPScreen> {
               const SizedBox(
                 height: 30,
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(174, 0, 87, 115),
-                  elevation: 0.1,
-                  shape: const CircleBorder(
-                    side: BorderSide(
-                      color: Colors.transparent, // Border color
-                      width: 0.5, // B
-                      // order width
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 24, 118, 210),
+                        elevation: 0.1,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                        size: 30, // Icon color
+                      ),
+                      // onPressed: () async {
+                      //   try {
+                      //     PhoneAuthCredential credential =
+                      //         await PhoneAuthProvider.credential(
+                      //             verificationId: widget.verificationID,
+                      //             smsCode: otpValue.toString());
+                      //     FirebaseAuth.instance
+                      //         .signInWithCredential(credential)
+                      //         .then((value) {
+                      //       Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) => RegisterScreen1(),
+                      //         ),
+                      //       );
+                      //     });
+                      //   } catch (ex) {
+                      //     log(ex.toString() as num);
+                      //   }
+                      // },
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => RegisterScreen1(phoneNo: widget.phoneNo,),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                  padding: const EdgeInsets.all(20),
-                ),
-                child: const Icon(
-                  Icons.arrow_forward,
-                  color: Colors.white,
-                  size: 30, // Icon color
-                ),
-                onPressed: () async {
-                  try {
-                    PhoneAuthCredential credential =
-                        await PhoneAuthProvider.credential(
-                            verificationId: widget.verificationID,
-                            smsCode: otpValue.toString());
-                    FirebaseAuth.instance
-                        .signInWithCredential(credential)
-                        .then((value) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RegisterScreen1(),
-                        ),
-                      );
-                    });
-                  } catch (ex) {
-                    log(ex.toString() as num);
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 70,
+                ],
               ),
               Container(
-                alignment: Alignment.bottomLeft,
+                margin: const EdgeInsets.only(top: 214),
                 child: Image.asset(
-                    'assets/hand-drawn-dog-outline-illustration_23-2149263522-removebg-preview.png',
-                    width: 300,
-                    color: const Color.fromARGB(223, 255, 255, 255)),
+                  'assets/loginscreenabstract.png',
+                ),
               ),
             ],
           ),

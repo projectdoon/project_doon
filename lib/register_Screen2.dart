@@ -1,14 +1,12 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:mongo_dart/mongo_dart.dart' as mongo;
-import 'package:mydoon/Backend/MongoDB.dart';
 import 'package:mydoon/Home_Screen_ui/Navigation_menu.dart';
-import 'package:mydoon/Home_Screen_ui/home_screen.dart';
-
-import 'Backend/MongoDBModel.dart';
+import 'package:http/http.dart' as http;
+import 'config.dart';
 
 class RegisterScreen2 extends StatefulWidget {
   RegisterScreen2({
@@ -18,8 +16,8 @@ class RegisterScreen2 extends StatefulWidget {
     required this.phoneno,
   });
 
-  final fname;
-  final lname;
+  var fname;
+  var lname;
   var phoneno;
 
   @override
@@ -28,6 +26,8 @@ class RegisterScreen2 extends StatefulWidget {
 
 class _RegisterScreen2State extends State<RegisterScreen2> {
   var address1 = TextEditingController(text: '');
+  var address2 = TextEditingController();
+  bool _isNotValidate = false;
 
   @override
   void dispose() {
@@ -52,6 +52,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
 
       print('hiiiiiiii');
       print(widget.fname);
+      print(widget.phoneno);
       lat = currentPosition.latitude;
       long = currentPosition.longitude;
 
@@ -70,25 +71,48 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
     }
   } //
 
-  Future<void> _insertdata(var fname, var lname,  var phoneno,
-      var lat, var long) async {
-    print('cllllll');
-    var _id = mongo.ObjectId();
-    final data = MongoDbModel(
-        id: _id,
-        firstName: fname,
-        lastName: lname,
-        phoneNo: phoneno,
-        homelocationLatitude: lat,
-        homelocationLongitutde: long,
-        currentlocationLatitude: 0,
-        currentlocationLongitutde: 0);
+  void registerUser() async {
+    String FirstName = widget.fname.text.toString();
+    String LastName = widget.lname.text.toString();
+    var phoneNumber = int.tryParse(widget.phoneno.text.toString());
+    if (address1.text.isNotEmpty && address2.text.isNotEmpty) {
+      var regBody = {
+        "phoneNo": phoneNumber,
+        "firstName": FirstName,
+        "lastName": LastName,
+        "Lat": lat,
+        "Long": long,
+        "email": "af8870i2@gmail.com"
+      };
 
-    var result = await MongoDatabase.insert(data);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('registered successfully !!'),
-    ));
-    _clearAll();
+      try {
+        var response = await http.post(Uri.parse(registration),
+            headers: {"content-type": "application/json"},
+            body: jsonEncode(regBody));
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse['status']);
+
+        if (jsonResponse['status']) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Registered Successfully"),
+          ));
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => NavigationMenu(),
+            ),
+          );
+        } else {
+          print('something went wrong');
+        }
+      } catch (err) {
+        print(err);
+      }
+    } else {
+      setState(() {
+        _isNotValidate = true;
+      });
+    }
   }
 
   @override
@@ -119,7 +143,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                       ),
                       onPressed: () {},
                     ),
-                   //  Expanded(child: Container()), // Spacer
+                    //  Expanded(child: Container()), // Spacer
                   ],
                 ),
               ),
@@ -199,10 +223,11 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                 alignment: Alignment.center,
                 child: TextField(
                   controller: address1,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                      errorText: _isNotValidate ? "enter proper info" : null,
                       hintText: 'Address Line 1',
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.only(left: 16.0)),
+                      contentPadding: const EdgeInsets.only(left: 16.0)),
                 ),
               ),
               const SizedBox(height: 15),
@@ -221,8 +246,10 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                   ),
                 ),
                 alignment: Alignment.center,
-                child: const TextField(
+                child: TextField(
+                  controller: address2,
                   decoration: InputDecoration(
+                      errorText: _isNotValidate ? "enter proper info" : null,
                       hintText: 'Address Line 2',
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(left: 16.0)),
@@ -281,17 +308,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                                 horizontal: 20, vertical: 12),
                           ),
                           onPressed: () {
-                            _insertdata(
-                                widget.fname,
-                                widget.lname,
-                                widget.phoneno,
-                                lat,
-                                long,);
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) =>  NavigationMenu()));
-                            // Navigator.push(context, CupertinoPageRoute(builder: (context) => const Homeui()));
+                            registerUser();
                           },
                           child: const Text(
                             'Register',
