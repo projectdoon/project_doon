@@ -48,6 +48,8 @@ dependencies:
   location: ^6.0.2
   get: ^4.6.6
   http: ^1.2.2
+  shared_preferences: ^2.3.2
+  jwt_decoder: ^2.0.1
 
 
 dev_dependencies:

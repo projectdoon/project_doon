@@ -20,6 +20,8 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
+
+
   final _phoneNumberController = TextEditingController();
   var phoneNumberInput = null;
   final _auth = AuthService();

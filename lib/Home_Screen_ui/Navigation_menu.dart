@@ -8,23 +8,22 @@ import '../User Profile/profileSection.dart';
 import 'Services_screen.dart';
 import 'home_screen.dart';
 
-
 class NavigationMenu extends StatelessWidget {
-  NavigationMenu({super.key});
+  NavigationMenu({super.key, this.token});
+  final token;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(NavigationController());
+    final controller = Get.put(NavigationController(tokendata: token));
+
+
+
 
     // Get the width of the screen
     final screenWidth = MediaQuery.of(context).size.width;
 
-
     return Scaffold(
-
-
-
       key: _scaffoldKey,
       endDrawer: Container(
         width: screenWidth * 0.72,
@@ -71,12 +70,15 @@ class NavigationMenu extends StatelessWidget {
                     width: 180,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(225, 255, 0, 0), // Button color
+                        backgroundColor: const Color.fromARGB(
+                            225, 255, 0, 0), // Button color
                         elevation: 5.0, // Button shadow
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0), // Rounded corners
+                          borderRadius:
+                              BorderRadius.circular(20.0), // Rounded corners
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), // Button padding
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 12), // Button padding
                       ),
                       onPressed: () async {
                         // await signOutWithGoogle();
@@ -96,10 +98,8 @@ class NavigationMenu extends StatelessWidget {
           ),
         ),
       ),
-
-
       bottomNavigationBar: Obx(
-            () => NavigationBar(
+        () => NavigationBar(
           backgroundColor: Colors.white,
           height: 80,
           shadowColor: Colors.black,
@@ -116,8 +116,10 @@ class NavigationMenu extends StatelessWidget {
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
             NavigationDestination(icon: Icon(Icons.apps), label: 'Services'),
-            NavigationDestination(icon: Icon(Icons.headphones), label: 'Contact Us'),
-            NavigationDestination(icon: Icon(Icons.account_circle_outlined), label: 'My Profile'),
+            NavigationDestination(
+                icon: Icon(Icons.headphones), label: 'Contact Us'),
+            NavigationDestination(
+                icon: Icon(Icons.account_circle_outlined), label: 'My Profile'),
           ],
         ),
       ),
@@ -129,13 +131,13 @@ class NavigationMenu extends StatelessWidget {
     // Navigator.pop(context);
     switch (index) {
       case 0:
-      Navigator.pop(context);
+        Navigator.pop(context);
         break;
 
       case 1:
-        Navigator.push(context, CupertinoPageRoute(builder: (context) =>  myComplain()));
+        Navigator.push(
+            context, CupertinoPageRoute(builder: (context) => myComplain()));
         break;
-
     }
   }
 
@@ -158,10 +160,7 @@ class NavigationMenu extends StatelessWidget {
           ),
           SizedBox(height: 8.0),
           TextButton(
-            onPressed: (
-                ) {
-
-            },
+            onPressed: () {},
             child: const Text(
               'Edit Profile',
               style: TextStyle(
@@ -178,6 +177,15 @@ class NavigationMenu extends StatelessWidget {
 }
 
 class NavigationController extends GetxController {
+
+  NavigationController({this.tokendata});
+  final tokendata;
+
   final Rx<int> selectedIndex = 0.obs;
-  final screens = [HomeScreen(), ServicesScreen(), UserProfile(), UserProfile()];
+  late final screens = [
+    HomeScreen(token: tokendata,),
+    ServicesScreen(),
+    UserProfile(),
+    UserProfile()
+  ];
 }

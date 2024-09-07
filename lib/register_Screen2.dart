@@ -82,7 +82,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
         "lastName": LastName,
         "Lat": lat,
         "Long": long,
-        "email": "af8870i2@gmail.com"
+        "email": "afuhjiiii992@gmail.com"
       };
 
       try {
@@ -99,7 +99,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => NavigationMenu(),
+              builder: (context) => NavigationMenu(token: 'uiuiui',),
             ),
           );
         } else {

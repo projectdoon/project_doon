@@ -3,9 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../User Profile/profileSection.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'Category_Second_Row.dart';
 import 'category_icons.dart';
 
@@ -13,9 +11,9 @@ import 'category_icons.dart';
 List<Map<String, String>> userComplain = [];
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.token});
 
-
+  final token;
 
   @override
   State<HomeScreen> createState() {
@@ -37,6 +35,15 @@ final PageController _pageControler = PageController(initialPage: 0);
 Timer? _timer;
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+
+  late String fname;
+
+
+
+
+
   void StartTimer() {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       if (_pageControler.page == imagePaths.length - 1) {
@@ -52,6 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    Map<String,dynamic> jwtDecodedToken=JwtDecoder.decode(widget.token);
+    fname=jwtDecodedToken['firstName'];
     _pages = List.generate(
         imagePaths.length,
         (index) => ImagePlaceholder(
@@ -84,14 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Column(
+                     Column(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(left: 10),
                           child: Text('Welcome'),
                         ),
                         Text(
-                          'Adhiraj',
+                          fname,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],

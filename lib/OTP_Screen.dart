@@ -1,14 +1,14 @@
-import 'dart:ffi';
-import 'dart:math';
-
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mydoon/register_Screen1.dart';
-
 import 'package:pinput/pinput.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Home_Screen_ui/Navigation_menu.dart';
+import 'config.dart';
 
 class OTPScreen extends StatefulWidget {
   OTPScreen({super.key, required this.verificationID, required this.phoneNo});
@@ -24,6 +24,75 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   final _OTPController = TextEditingController();
+  late SharedPreferences prefs;
+  var otpValue = null;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async{
+    prefs=await SharedPreferences.getInstance();
+  }
+
+  void loginUser() async{
+    print('chal raha');
+    var phoneNumber = int.tryParse(widget.phoneNo.text.toString());
+    print(phoneNumber);
+    if(otpValue!=null){
+      var reqBody={
+        "phoneNo":phoneNumber
+      };
+
+      print('chal raha1');
+
+      try {
+        print('chal raha2');
+        var response = await http.post(Uri.parse(login),
+            headers: {"content-type": "application/json"},
+            body: jsonEncode(reqBody));
+        print('chal raha3');
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse['status']);
+
+        if (jsonResponse['status']==true) {
+          var myToken=jsonResponse['token'];
+          prefs.setString('token', myToken);
+
+
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("logged in Successfully"),
+          ));
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => NavigationMenu(token: myToken,),
+            ),
+          );
+        }
+        else {
+          print('something went wrong');
+
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("please register yourself"),
+          ));
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => RegisterScreen1(phoneNo: widget.phoneNo),
+            ),
+          );
+        }
+      } catch (err) {
+        print('nahi chal raha');
+        print(err);
+
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -34,7 +103,7 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var otpValue = null;
+
     final defaultPinTheme = PinTheme(
       width: 50,
       height: 50,
@@ -156,12 +225,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       //   }
                       // },
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => RegisterScreen1(phoneNo: widget.phoneNo,),
-                          ),
-                        );
+                        loginUser();
                       },
                     ),
                   ),
