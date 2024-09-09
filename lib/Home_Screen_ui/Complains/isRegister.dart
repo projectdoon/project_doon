@@ -17,7 +17,6 @@ class _IsregisterState extends State<Isregister> {
       body: SafeArea(
         child: Column(
           children: [
-
             Container(
               margin: const EdgeInsets.only(top: 48),
               child: Row(
@@ -45,9 +44,7 @@ class _IsregisterState extends State<Isregister> {
                 ],
               ),
             ),
-
             SizedBox(height: 50),
-
             Container(
               margin: const EdgeInsets.only(top: 16),
               width: MediaQuery.of(context).size.width * 0.7,
@@ -64,9 +61,7 @@ class _IsregisterState extends State<Isregister> {
                 ),
               ),
             ),
-
             SizedBox(height: 20),
-
             const Text(
               'Your Complain is Registered!',
               style: TextStyle(
@@ -75,9 +70,7 @@ class _IsregisterState extends State<Isregister> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
-            SizedBox(height:45),
-
+            SizedBox(height: 45),
             Container(
               width: MediaQuery.of(context).size.width * 0.5,
               child: Padding(
@@ -88,18 +81,18 @@ class _IsregisterState extends State<Isregister> {
                     elevation: 2.0, // Button shadow
                     shape: RoundedRectangleBorder(
                       borderRadius:
-                      BorderRadius.circular(10.0), // Rounded corners
+                          BorderRadius.circular(10.0), // Rounded corners
                     ),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12), // Button padding
                   ),
                   onPressed: () async {
-
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => NavigationMenu()),
+                      MaterialPageRoute(
+                        builder: (context) => NavigationMenu(),
+                      ),(route)=>false
                     );
-
                   },
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
@@ -117,8 +110,6 @@ class _IsregisterState extends State<Isregister> {
                 ),
               ),
             ),
-
-
           ],
         ),
       ),
