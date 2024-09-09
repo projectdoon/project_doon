@@ -40,7 +40,8 @@ class _OTPScreenState extends State<OTPScreen> {
 
   void loginUser() async{
     print('chal raha');
-    var phoneNumber = int.tryParse(widget.phoneNo.text.toString());
+    // var phoneNumber = int.tryParse(widget.phoneNo.text.toString());
+    var phoneNumber = 7788944674;
     print(phoneNumber);
     if(otpValue!=null){
       var reqBody={
@@ -226,6 +227,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       // },
                       onPressed: () {
                         loginUser();
+
                       },
                     ),
                   ),

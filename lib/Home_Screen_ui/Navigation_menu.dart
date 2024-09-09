@@ -17,10 +17,6 @@ class NavigationMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController(tokendata: token));
 
-
-
-
-    // Get the width of the screen
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(

@@ -4,6 +4,7 @@ import 'package:mydoon/Backend/MongoDB.dart';
 import 'package:mydoon/start_screen.dart';
 import 'Home_Screen_ui/Navigation_menu.dart';
 
+import 'OTP_Screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -19,7 +20,7 @@ void main() async {
       colorSchemeSeed: Colors.blue,
     ),
     debugShowCheckedModeBanner: false,
-    home:  StartScreen(),))
+    home:  OTPScreen(verificationID: '12ljbvda',phoneNo: 123,),))
   ;
 }
 

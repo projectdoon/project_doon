@@ -25,7 +25,6 @@ class _DragListState extends State<DragList> {
       Navigator.pop(context);
     }
 
-
     double displaySize = MediaQuery.of(context).size.width;
     return DraggableScrollableSheet(
       initialChildSize: 0.55,

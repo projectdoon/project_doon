@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'isRegister.dart';
 
@@ -16,6 +20,26 @@ class _allComplainState extends State<complainExpanded> {
     "Water Leakage"
   ];
   String? index;
+
+
+  File? selectedImage;
+  String base64Image = "";
+
+  Future<void> select_image(type) async {
+    var image;
+    if (type == "camera") {
+      image = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 70);
+    } else {
+      image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 70);
+    }
+    if (image != null) {
+      setState(() {
+        selectedImage = File(image.path);
+        base64Image = base64Encode(selectedImage!.readAsBytesSync());
+        // print(base64Image);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +153,10 @@ class _allComplainState extends State<complainExpanded> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 12), // Button padding
                     ),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      select_image("camera");
+                    },
+
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -234,6 +261,21 @@ class _allComplainState extends State<complainExpanded> {
                   ),
                 ),
               ),
+
+
+              const SizedBox(height: 20),
+
+              if (selectedImage != null)
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: FileImage(selectedImage!),
+                )
+              else
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.grey[300],
+                  child: const Icon(Icons.image, size: 50, color: Colors.grey),
+                ),
 
             ],
           ),
