@@ -20,7 +20,7 @@ void main() async {
       colorSchemeSeed: Colors.blue,
     ),
     debugShowCheckedModeBanner: false,
-    home:  OTPScreen(verificationID: '12ljbvda',phoneNo: 123,),))
+    home:  StartScreen(),))
   ;
 }
 

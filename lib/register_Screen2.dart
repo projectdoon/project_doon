@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mydoon/Home_Screen_ui/Navigation_menu.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'config.dart';
 
 class RegisterScreen2 extends StatefulWidget {
@@ -26,12 +27,24 @@ class RegisterScreen2 extends StatefulWidget {
 class _RegisterScreen2State extends State<RegisterScreen2> {
   var address1 = TextEditingController(text: '');
   var address2 = TextEditingController();
+  late SharedPreferences prefs;
   bool _isNotValidate = false;
 
   @override
   void dispose() {
     address1.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async{
+    prefs=await SharedPreferences.getInstance();
   }
 
   String? Location;
@@ -92,13 +105,16 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
         print(jsonResponse['status']);
 
         if (jsonResponse['status']) {
+          var myToken=jsonResponse['token'];
+          prefs.setString('token', myToken);
+
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Registered Successfully"),
           ));
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => NavigationMenu(token: 'uiuiui',),
+              builder: (context) => NavigationMenu(token: myToken,),
             ),
           );
         } else {

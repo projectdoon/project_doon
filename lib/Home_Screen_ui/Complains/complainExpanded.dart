@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:mydoon/config.dart';
 import 'isRegister.dart';
 
 class complainExpanded extends StatefulWidget {
@@ -19,24 +19,72 @@ class _allComplainState extends State<complainExpanded> {
     "Dead Animal",
     "Water Leakage"
   ];
-  String? index;
-
-
+  String? selectedComplain;
   File? selectedImage;
   String base64Image = "";
+  final descriptionController = TextEditingController();
+  bool _isNotValidate = false;
 
   Future<void> select_image(type) async {
     var image;
     if (type == "camera") {
-      image = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 70);
+      image = await ImagePicker()
+          .pickImage(source: ImageSource.camera, imageQuality: 70);
     } else {
-      image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 70);
+      image = await ImagePicker()
+          .pickImage(source: ImageSource.gallery, imageQuality: 70);
     }
     if (image != null) {
       setState(() {
         selectedImage = File(image.path);
         base64Image = base64Encode(selectedImage!.readAsBytesSync());
         // print(base64Image);
+      });
+    }
+  }
+
+  void registerComplain() async {
+    print('chala1');
+    if (descriptionController.text.isNotEmpty) {
+      var regBody = {
+        "Category": selectedComplain,
+        "Description": descriptionController.text.toString(),
+        "Status": 0,
+        "Burst": 0,
+        "Lat": 123,
+        "Long": 23
+      };
+      print('chala2');
+
+      try {
+        print('chala3');
+        var response = await http.post(Uri.parse(complainRegistration),
+            headers: {"content-type": "application/json"},
+            body: jsonEncode(regBody));
+        var jsonResponse = jsonDecode(response.body);
+        print('chala4');
+        print(jsonResponse['status']);
+
+
+        if (jsonResponse['status']) {
+          print('chala5');
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Registered Successfully"),
+          ));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Isregister()),
+          );
+        } else {
+          print('something went wrong');
+        }
+      } catch (err) {
+        print('nahichala1');
+        print(err);
+      }
+    } else {
+      setState(() {
+        _isNotValidate = true;
       });
     }
   }
@@ -49,8 +97,6 @@ class _allComplainState extends State<complainExpanded> {
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
-
-
               Container(
                 margin: const EdgeInsets.only(top: 48),
                 child: Row(
@@ -79,11 +125,13 @@ class _allComplainState extends State<complainExpanded> {
                 ),
               ),
 
-              const SizedBox(height: 95,),
+              const SizedBox(
+                height: 95,
+              ),
 
               DropdownButton<String>(
                 padding: const EdgeInsets.only(left: 30, right: 30),
-                value: index,
+                value: selectedComplain,
                 hint: const Text(
                   'Type of Complain!',
                   style: TextStyle(
@@ -115,7 +163,7 @@ class _allComplainState extends State<complainExpanded> {
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    index = value;
+                    selectedComplain = value;
                   });
                 },
               ),
@@ -125,11 +173,14 @@ class _allComplainState extends State<complainExpanded> {
               Container(
                 width: 450,
                 padding: const EdgeInsets.only(left: 30, right: 30),
-                child: TextFormField(
-                  decoration: const InputDecoration(
+                child: TextField(
+
+                  controller: descriptionController,
+                  decoration: InputDecoration(
+                    errorText: _isNotValidate ? "enter proper info" : null,
                     hintText: 'Add a Comment:',
                     hintStyle: TextStyle(color: Colors.black),
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),
                   ),
@@ -156,7 +207,6 @@ class _allComplainState extends State<complainExpanded> {
                     onPressed: () async {
                       select_image("camera");
                     },
-
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -238,12 +288,7 @@ class _allComplainState extends State<complainExpanded> {
                           horizontal: 20, vertical: 12), // Button padding
                     ),
                     onPressed: () async {
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Isregister()),
-                        );
-
+                      registerComplain();
                     },
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
@@ -262,7 +307,6 @@ class _allComplainState extends State<complainExpanded> {
                 ),
               ),
 
-
               const SizedBox(height: 20),
 
               if (selectedImage != null)
@@ -276,7 +320,6 @@ class _allComplainState extends State<complainExpanded> {
                   backgroundColor: Colors.grey[300],
                   child: const Icon(Icons.image, size: 50, color: Colors.grey),
                 ),
-
             ],
           ),
         ),
