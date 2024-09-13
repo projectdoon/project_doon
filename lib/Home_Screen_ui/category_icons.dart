@@ -22,7 +22,7 @@ class _CategoryIconsState extends State<CategoryIcons> {
       children: [
 
         Container(
-          margin: EdgeInsets.only(top: 20, right: 5, left: 5),
+          margin: EdgeInsets.only(top: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +41,12 @@ class _CategoryIconsState extends State<CategoryIcons> {
                       ),
                       padding: EdgeInsets.all(10),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => const complainExpanded()));
+                    },
                     child: SvgPicture.asset(
                       'assets/Paper_light.svg',
                       height: 50,
@@ -53,7 +58,7 @@ class _CategoryIconsState extends State<CategoryIcons> {
                   Text('Complains'),
                 ],
               ),
-              SizedBox(width: 20,),
+              SizedBox(width: 22,),
               Column(
                 children: [
                   ElevatedButton(
@@ -80,7 +85,7 @@ class _CategoryIconsState extends State<CategoryIcons> {
                   Text('Bills'),
                 ],
               ),
-              SizedBox(width: 20,),
+              SizedBox(width: 22,),
               Column(
                 children: [
                   ElevatedButton(
@@ -112,7 +117,7 @@ class _CategoryIconsState extends State<CategoryIcons> {
                   Text('Welfare')
                 ],
               ),
-              SizedBox(width: 20,),
+              SizedBox(width: 22,),
               Column(
                 children: [
                   ElevatedButton(

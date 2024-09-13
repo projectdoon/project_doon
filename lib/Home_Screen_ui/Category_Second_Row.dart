@@ -96,6 +96,7 @@ class  _CategorySecondRowState extends State<CategorySecondRow>{
 
         ),
 
+
                  SizedBox(width: 5,),
 
                  Column(

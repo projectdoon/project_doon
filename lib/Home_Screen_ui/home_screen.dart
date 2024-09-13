@@ -1,12 +1,10 @@
 import 'dart:async';
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'Category_Second_Row.dart';
 import 'category_icons.dart';
-
 
 List<Map<String, String>> userComplain = [];
 
@@ -35,14 +33,7 @@ final PageController _pageControler = PageController(initialPage: 0);
 Timer? _timer;
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
-
   late String fname;
-
-
-
-
 
   void StartTimer() {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
@@ -59,8 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Map<String,dynamic> jwtDecodedToken=JwtDecoder.decode(widget.token);
-    fname=jwtDecodedToken['firstName'];
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    fname = jwtDecodedToken['firstName'];
     _pages = List.generate(
         imagePaths.length,
         (index) => ImagePlaceholder(
@@ -71,10 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(context) {
-
-
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       // appBar: PreferredSize(
@@ -93,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Column(
+                    Column(
                       children: [
                         const Padding(
                           padding: EdgeInsets.only(left: 10),
@@ -128,14 +115,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Center(
                     child: Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.7),
-                          spreadRadius: 3,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.7),
+                            spreadRadius: 3,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
                       margin: EdgeInsets.only(top: 17),
                       width: 360,
                       height: MediaQuery.of(context).size.height / 5,
@@ -216,25 +205,98 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-              Container(
-
-                margin:
-                    EdgeInsets.only(top: 15, right: 18, left: 18, bottom: 41),
-                height: 100,
-                decoration: BoxDecoration(
-                    // color: Colors.black,
-                    color: Color.fromARGB(26, 255, 0, 0),
-                    borderRadius: BorderRadius.circular(20)),
-
-                child: Row(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.red[100],
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 10,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(225, 255, 0, 0),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.notifications,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'General Alert',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(225, 255, 0, 0),
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'yaha par phla alert ayega!',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {  },
+                      child: const Text(
+                        'View All',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+              // Container(
+              //   margin:
+              //       EdgeInsets.only(top: 15, right: 18, left: 18, bottom: 41),
+              //   height: 100,
+              //   decoration: BoxDecoration(
+              //       // color: Colors.black,
+              //       color: Color.fromARGB(26, 255, 0, 0),
+              //       borderRadius: BorderRadius.circular(20)),
+              //   child: Row(),
+              // ),
+              
               Image.asset('assets/Line 25.png'),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 5),
                 child: const CategoryIcons(),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 5),
+                margin: const EdgeInsets.only(top: 10, bottom: 5),
                 child: const CategoryIcons(),
               ),
               Image.asset('assets/Line 25.png'),
@@ -247,10 +309,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-
               Container(
                 height: 45,
-               margin: const EdgeInsets.only(top: 20,left: 17,right: 17,bottom: 10),
+                margin: const EdgeInsets.only(
+                    top: 20, left: 17, right: 17, bottom: 10),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 255, 255, 255),
                   shape: BoxShape.rectangle,
@@ -278,7 +340,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
@@ -286,6 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 //----------------------------ads section--------------------------//
 class ImagePlaceholder extends StatelessWidget {
   final String? imagePath;
@@ -299,5 +361,3 @@ class ImagePlaceholder extends StatelessWidget {
     );
   }
 }
-
-
