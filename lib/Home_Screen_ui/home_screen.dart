@@ -217,6 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
+
                 margin:
                     EdgeInsets.only(top: 15, right: 18, left: 18, bottom: 41),
                 height: 100,
@@ -224,6 +225,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     // color: Colors.black,
                     color: Color.fromARGB(26, 255, 0, 0),
                     borderRadius: BorderRadius.circular(20)),
+
+                child: Row(),
               ),
               Image.asset('assets/Line 25.png'),
               Container(

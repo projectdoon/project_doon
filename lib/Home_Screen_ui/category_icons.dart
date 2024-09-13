@@ -20,137 +20,134 @@ class _CategoryIconsState extends State<CategoryIcons> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          children: [
-            InkWell(
-              borderRadius: BorderRadius.circular(10),
-              splashColor: Color.fromARGB(50, 255, 255, 255),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => complainExpanded()),
-                );
-              },
-              child: Ink(
 
-                height: 68,
-                width: 68,
-                decoration: BoxDecoration(
-                  image: const DecorationImage(
-                      image: AssetImage('assets/Paper_light@3x.png'),
-                      scale: 2.7),
-                  border: Border.all(
-                      color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
-                  color: const Color.fromARGB(255, 176, 205, 249),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text('Complains'),
-          ],
-        ),
-        Column(
-          children: [
-            InkWell(
-              borderRadius: BorderRadius.circular(10),
-              splashColor: Color.fromARGB(50, 255, 255, 255),
-              onTap: () {},
-              child: Ink(
-                height: 68,
-                width: 68,
-                child: Container(
-
-                  padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+        Container(
+          margin: EdgeInsets.only(top: 20, right: 5, left: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 176, 205, 249),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Color.fromARGB(255, 58, 129, 241),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    onPressed: () {},
                     child: SvgPicture.asset(
-                  'assets/Rupee Sign.svg',
-                  height: 5,
-                )),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
-                  color: const Color.fromARGB(255, 176, 205, 249),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                      'assets/Paper_light.svg',
+                      height: 50,
+                    )
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text('Complains'),
+                ],
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text('Bills'),
-          ],
-        ),
-        Column(
-          children: [
-            InkWell(
-              borderRadius: BorderRadius.circular(10),
-              splashColor: Color.fromARGB(50, 255, 255, 255),
-              onTap: () {},
-              child: Ink(
-                height: 68,
-                width: 68,
-                child: Container(
-
-                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+              SizedBox(width: 20,),
+              Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 176, 205, 249),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Color.fromARGB(255, 58, 129, 241),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    onPressed: () {},
                     child: SvgPicture.asset(
-                      'assets/notebook_light.svg',
-
-                    )),
-                decoration: BoxDecoration(
-
-                  border: Border.all(
-                      color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
-                  color: const Color.fromARGB(255, 176, 205, 249),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                      'assets/Rupee Sign.svg',
+                      height: 50,
+                    )
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text('Bills'),
+                ],
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              'Animal\nWelfare',
-              style: TextStyle(fontSize: 12),
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            InkWell(
-              borderRadius: BorderRadius.circular(10),
-              splashColor: Color.fromARGB(50, 255, 255, 255),
-              onTap: () {},
-              child: Ink(
-                height: 68,
-                width: 68,
-                child: Container(
-
-                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-                    child: SvgPicture.asset(
-                      'assets/Component 8.svg',
-
-                    )),
-
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
-                  color: const Color.fromARGB(255, 176, 205, 249),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+              SizedBox(width: 20,),
+              Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 176, 205, 249),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Color.fromARGB(255, 58, 129, 241),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    onPressed: () {},
+                    child: Image.asset(
+                      'assets/Component 7.png',
+                      height: 50,
+                      width: 50,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text('Animal',),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  Text('Welfare')
+                ],
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              'Vehicle\n   info',
-              style: TextStyle(fontSize: 12),
-            ),
-
-          ],
+              SizedBox(width: 20,),
+              Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 176, 205, 249),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Color.fromARGB(255, 58, 129, 241),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    onPressed: () {},
+                    child: Image.asset(
+                      'assets/Component 8.png',
+                      height: 50,
+                      width: 50,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text('Veichle'),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text('Info'),
+                ],
+              ),
+            ],
+          ),
         ),
+
       ],
     );
   }
