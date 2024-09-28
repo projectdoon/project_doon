@@ -5,7 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'Complains/complainExpanded.dart';
 
 class CategoryIcons extends StatefulWidget {
-  const CategoryIcons({super.key});
+  const CategoryIcons({super.key,required this.token});
+  final token;
 
   @override
   State<CategoryIcons> createState() {
@@ -28,7 +29,7 @@ class _CategoryIconsState extends State<CategoryIcons> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => complainExpanded()),
+                  MaterialPageRoute(builder: (context) => complainExpanded(token: widget.token,)),
                 );
               },
               child: Ink(

@@ -1,9 +1,58 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mydoon/config.dart';
 import '../Home_Screen_ui/home_screen.dart';
+import 'package:http/http.dart' as http;
 
-class myComplain extends StatelessWidget {
-  const myComplain({super.key});
+class myComplain extends StatefulWidget {
+  const myComplain({super.key, required this.token});
+
+  final token;
+
+  @override
+  State<myComplain> createState() {
+    return myComplainState();
+  }
+}
+
+class myComplainState extends State<myComplain> {
+  late String userId;
+  List? items;
+   bool _customIcon=false;
+
+  @override
+  void initState() {
+    super.initState();
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    userId = jwtDecodedToken['_id'];
+    getComplainList(userId);
+  }
+
+  void getComplainList(userId) async {
+    var regBody = {"userId": userId};
+    print('chala2 in my complain');
+
+    try {
+      print(userId);
+      var response = await http.post(Uri.parse(getComplainData),
+          headers: {"content-type": "application/json"},
+          body: jsonEncode(regBody));
+      print('chala2 in my complain');
+      print(response.body);
+      var jsonResponse = jsonDecode(response.body);
+      print('chala3 in my complain');
+      print(jsonResponse['status']);
+      items = jsonResponse['success'];
+      print(items);
+
+      setState(() {});
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,53 +85,152 @@ class myComplain extends StatelessWidget {
                 ],
               ),
             ),
-
             Expanded(
-              child: ListView.builder(
-                itemCount: userComplain.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 8,
-                            offset: Offset(0, 1),
-                          ),
-                        ],
-                      ),
-                      child: Card(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        elevation: 0,
-                        child: ListTile(
-                          leading: const CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 12,
-                          ),
-                          title: Text(
-                            userComplain[index]['message'] ?? '',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                child: Padding(
+              padding: EdgeInsets.only(),
+              child: items == null
+                  ? null
+                  : ListView.builder(
+                      itemCount: items!.length,
+                      itemBuilder: (context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.blue.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 8,
+                                  offset: Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                            child: Card(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              elevation: 0,
+
+                              child: Column(
+                                children: [
+                                  Theme(
+                                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent,splashColor: Colors.transparent),
+                                    child: ExpansionTile(
+                                    
+                                    
+                                      leading: const CircleAvatar(
+                                        backgroundColor: Colors.blue,
+                                        radius: 12,
+                                      ),
+
+                                      title: Text(
+                                        '${items![index]['Category']}',
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    
+                                    
+                                      children:  <Widget>[
+                                        ListTile(
+                                    
+                                          title: Text('${items![index]['Description']}'),
+                                          
+                                        ),
+                                        Row(
+                                          children: [
+                                    
+                                            Container(
+                                    
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Text('Solved',style: TextStyle(color: Colors.white),),
+                                                style: ElevatedButton.styleFrom(
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(5.0),
+                                                    ),
+                                                    elevation: 3,
+                                                    minimumSize: Size(60, 24),
+                                                    backgroundColor: Colors.blue
+                                                ),
+                                              ),
+                                              margin: EdgeInsets.only(left: 20),
+                                            ),
+                                            SizedBox(width: 10,),
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              child: Text('Re-Complain',style: TextStyle(color: Colors.black),),
+                                              style: ElevatedButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                  ),
+                                                  elevation: 3,
+                                                  minimumSize: Size(60, 24),
+                                                  backgroundColor: Colors.white
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                      onExpansionChanged: (bool expanded){
+                                        setState(()=>_customIcon=expanded);
+                                      },
+                                    
+                                      trailing: Icon(Icons.dehaze_sharp),
+                                    ),
+                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //
+                                  //     Container(
+                                  //
+                                  //       child: ElevatedButton(
+                                  //         onPressed: () {},
+                                  //         child: Text('Solved',style: TextStyle(color: Colors.white),),
+                                  //         style: ElevatedButton.styleFrom(
+                                  //           shape: RoundedRectangleBorder(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(5.0),
+                                  //           ),
+                                  //           elevation: 3,
+                                  //           minimumSize: Size(60, 24),
+                                  //           backgroundColor: Colors.blue
+                                  //         ),
+                                  //       ),
+                                  //       margin: EdgeInsets.only(left: 20),
+                                  //     ),
+                                  //     SizedBox(width: 10,),
+                                  //     ElevatedButton(
+                                  //       onPressed: () {},
+                                  //       child: Text('Re-Complain',style: TextStyle(color: Colors.black),),
+                                  //       style: ElevatedButton.styleFrom(
+                                  //           shape: RoundedRectangleBorder(
+                                  //             borderRadius:
+                                  //             BorderRadius.circular(5.0),
+                                  //           ),
+                                  //           elevation: 3,
+                                  //           minimumSize: Size(60, 24),
+                                  //           backgroundColor: Colors.white
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // )
+                                ],
+                              ),
                             ),
                           ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            )
-
+            ))
           ],
         ),
       ),

@@ -132,7 +132,7 @@ class NavigationMenu extends StatelessWidget {
 
       case 1:
         Navigator.push(
-            context, CupertinoPageRoute(builder: (context) => myComplain()));
+            context, CupertinoPageRoute(builder: (context) => myComplain(token: token,)));
         break;
     }
   }

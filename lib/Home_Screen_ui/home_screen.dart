@@ -1,12 +1,14 @@
 import 'dart:async';
-
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import '../config.dart';
 import 'Category_Second_Row.dart';
 import 'category_icons.dart';
-
+import 'package:http/http.dart' as http;
 
 List<Map<String, String>> userComplain = [];
 
@@ -35,14 +37,22 @@ final PageController _pageControler = PageController(initialPage: 0);
 Timer? _timer;
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
-
   late String fname;
+  String? items;
 
+  void getAlert() async {
+    print('nononon');
+    var response = await http.get(Uri.parse(getAlertData),
+        headers: {"content-type": "application/json"});
 
-
-
+    print('chal raha3');
+    var jsonResponse = jsonDecode(response.body);
+    print('chal raha4');
+    print(jsonResponse['status']);
+    items = jsonResponse['tokendata'];
+    print(items);
+    setState(() {});
+  }
 
   void StartTimer() {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
@@ -59,22 +69,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Map<String,dynamic> jwtDecodedToken=JwtDecoder.decode(widget.token);
-    fname=jwtDecodedToken['firstName'];
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    fname = jwtDecodedToken['firstName'];
     _pages = List.generate(
         imagePaths.length,
         (index) => ImagePlaceholder(
               imagePath: imagePaths[index],
             ));
     StartTimer();
+    getAlert();
   }
 
   @override
   Widget build(context) {
-
-
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       // appBar: PreferredSize(
@@ -93,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Column(
+                    Column(
                       children: [
                         const Padding(
                           padding: EdgeInsets.only(left: 10),
@@ -128,14 +135,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Center(
                     child: Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.7),
-                          spreadRadius: 3,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.7),
+                            spreadRadius: 3,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
                       margin: EdgeInsets.only(top: 17),
                       width: 360,
                       height: MediaQuery.of(context).size.height / 5,
@@ -200,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 18, bottom: 5),
-                child: const CategoryIcons(),
+                child: CategoryIcons(token: widget.token),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 15),
@@ -220,6 +229,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin:
                     EdgeInsets.only(top: 15, right: 18, left: 18, bottom: 41),
                 height: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(padding: EdgeInsets.only(left: 10),
+
+                      child: SvgPicture.asset('assets/Alert.svg'),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30),
+
+                      child: Text(
+                        items.toString(),style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
                 decoration: BoxDecoration(
                     // color: Colors.black,
                     color: Color.fromARGB(26, 255, 0, 0),
@@ -228,11 +253,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset('assets/Line 25.png'),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 5),
-                child: const CategoryIcons(),
+                child:CategoryIcons(token: widget.token),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 5),
-                child: const CategoryIcons(),
+                child:  CategoryIcons(token: widget.token),
               ),
               Image.asset('assets/Line 25.png'),
               Container(
@@ -244,10 +269,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-
               Container(
                 height: 45,
-               margin: const EdgeInsets.only(top: 20,left: 17,right: 17,bottom: 10),
+                margin: const EdgeInsets.only(
+                    top: 20, left: 17, right: 17, bottom: 10),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 255, 255, 255),
                   shape: BoxShape.rectangle,
@@ -275,7 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
@@ -283,6 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 //----------------------------ads section--------------------------//
 class ImagePlaceholder extends StatelessWidget {
   final String? imagePath;
@@ -296,5 +321,3 @@ class ImagePlaceholder extends StatelessWidget {
     );
   }
 }
-
-

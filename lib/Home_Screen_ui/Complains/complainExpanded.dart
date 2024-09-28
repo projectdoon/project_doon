@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mydoon/User%20Profile/MyComplain.dart';
 import 'package:mydoon/config.dart';
 import 'isRegister.dart';
 
 class complainExpanded extends StatefulWidget {
-  const complainExpanded({super.key});
+  const complainExpanded({super.key,required this.token});
+
+  final token;
 
   @override
   State<complainExpanded> createState() => _allComplainState();
@@ -22,8 +27,10 @@ class _allComplainState extends State<complainExpanded> {
   String? selectedComplain;
   File? selectedImage;
   String base64Image = "";
+  String imageUrl='';
   final descriptionController = TextEditingController();
   bool _isNotValidate = false;
+  late String userId;
 
   Future<void> select_image(type) async {
     var image;
@@ -40,13 +47,38 @@ class _allComplainState extends State<complainExpanded> {
         base64Image = base64Encode(selectedImage!.readAsBytesSync());
         // print(base64Image);
       });
+      String uniqueFileName=DateTime.now().millisecondsSinceEpoch.toString();
+
+      //get a refrence to storage root
+      Reference referenceRoot =FirebaseStorage.instance.ref();
+      Reference referenceDirImages =referenceRoot.child('images');
+
+      //create a reference for the image to be stored
+
+      Reference referenceImageToUplaod =referenceDirImages.child(uniqueFileName);
+
+      //Store the file
+      try{
+        await referenceImageToUplaod.putFile(File(image.path));
+        imageUrl=await referenceImageToUplaod.getDownloadURL();
+      }catch(error){
+
+      }
     }
+
+  }
+  @override
+  void initState() {
+    super.initState();
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+   userId = jwtDecodedToken['_id'];
   }
 
   void registerComplain() async {
     print('chala1');
     if (descriptionController.text.isNotEmpty) {
-      var regBody = {
+      var complainRegBody = {
+        "userId":userId,
         "Category": selectedComplain,
         "Description": descriptionController.text.toString(),
         "Status": 0,
@@ -57,10 +89,11 @@ class _allComplainState extends State<complainExpanded> {
       print('chala2');
 
       try {
-        print('chala3');
+        print(userId);
+        print(imageUrl);
         var response = await http.post(Uri.parse(complainRegistration),
             headers: {"content-type": "application/json"},
-            body: jsonEncode(regBody));
+            body: jsonEncode(complainRegBody));
         var jsonResponse = jsonDecode(response.body);
         print('chala4');
         print(jsonResponse['status']);
@@ -68,17 +101,23 @@ class _allComplainState extends State<complainExpanded> {
 
         if (jsonResponse['status']) {
           print('chala5');
+          descriptionController.clear();
+
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Registered Successfully"),
           ));
+          myComplainState().getComplainList(userId);
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Isregister()),
           );
+
         } else {
           print('something went wrong');
         }
-      } catch (err) {
+      }
+      catch (err) {
         print('nahichala1');
         print(err);
       }
@@ -258,7 +297,7 @@ class _allComplainState extends State<complainExpanded> {
                         ),
                         SizedBox(width: 8),
                         Text(
-                          'Speak To Conplain',
+                          'Speak To Complain',
                           style: TextStyle(
                             color: Colors.white, // Text color
                             fontSize: 16, // Text size
