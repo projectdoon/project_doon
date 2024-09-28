@@ -20,39 +20,37 @@ class  _CategorySecondRowState extends State<CategorySecondRow>{
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment:  CrossAxisAlignment.start,
       children: [
-            Column(
-              children: [
-                InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  splashColor: Color.fromARGB(50, 255, 255, 255),
-                  onTap: () {},
-                  child: Ink(
-                    child: Container(
 
-                        padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                 Column(
+                  children: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 176, 205, 249),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: Color.fromARGB(255, 58, 129, 241),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.all(10),
+                        ),
+                        onPressed: () {},
                         child: SvgPicture.asset(
                           'assets/notebook_light.svg',
-
-                        )),
-                    height: 68,
-                    width: 68,
-                    decoration: BoxDecoration(
-
-                      border: Border.all(
-                          color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
-                      color: const Color.fromARGB(255, 176, 205, 249),
-                      borderRadius: BorderRadius.circular(10),
+                          height: 50,
+                        )
                     ),
-                  ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text('   Gov\nScheme'),
+                  ],
                 ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text('    Gov\nScheme'),
-              ],
-            ),
 
-        Column(
+                 SizedBox(width: 5,),
+
+                 Column(
           children: [
             InkWell(
               borderRadius: BorderRadius.circular(10),
@@ -99,30 +97,27 @@ class  _CategorySecondRowState extends State<CategorySecondRow>{
         ),
 
 
-        Column(
+                 SizedBox(width: 5,),
+
+                 Column(
           children: [
-            InkWell(
-              borderRadius: BorderRadius.circular(10),
-              splashColor: Color.fromARGB(50, 255, 255, 255),
-              onTap: () {},
-              child: Ink(
-                height: 68,
-                width: 68,
-                child: Container(
-
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                    child: SvgPicture.asset(
-                      'assets/Map_light.svg',
-
-                    )),
-                decoration: BoxDecoration(
-
-                  border: Border.all(
-                      color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
-                  color: const Color.fromARGB(255, 176, 205, 249),
-                  borderRadius: BorderRadius.circular(10),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 176, 205, 249),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: Color.fromARGB(255, 58, 129, 241),
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: EdgeInsets.all(10),
                 ),
-              ),
+                onPressed: () {},
+                child: SvgPicture.asset(
+                  'assets/Map_light.svg',
+                  height: 50,
+                )
             ),
             SizedBox(
               height: 8,
@@ -130,6 +125,10 @@ class  _CategorySecondRowState extends State<CategorySecondRow>{
             Text('    Gov\nServices'),
           ],
         ),
+
+
+
+
       ],
     );
   }
