@@ -2,20 +2,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../User Profile/MyComplain.dart';
 import '../User Profile/drawerItems.dart';
 import '../User Profile/profileSection.dart';
+import '../start_screen.dart';
 import 'Services_screen.dart';
 import 'home_screen.dart';
 
-class NavigationMenu extends StatelessWidget {
+class NavigationMenu extends StatefulWidget {
   NavigationMenu({super.key, this.token});
   final token;
+
+  @override
+  State<NavigationMenu> createState() => _NavigationMenuState();
+}
+
+class _NavigationMenuState extends State<NavigationMenu> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+  Future<void> logout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token'); // Remove token from storage
+    print("User logged out successfully.");
+
+    // Navigate to the login or start screen
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => StartScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(NavigationController(tokendata: token));
+    final controller = Get.put(NavigationController(tokendata: widget.token));
 
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -41,7 +62,12 @@ class NavigationMenu extends StatelessWidget {
                   drwaerItems(
                     name: 'My Complains',
                     icon: Icons.settings,
-                    onPressed: () => onPressFunction(context, index: 1),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => myComplain(
+                                  token: widget.token,
+                                ))),
                   ),
                   const SizedBox(height: 25),
                   drwaerItems(
@@ -76,9 +102,7 @@ class NavigationMenu extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 12), // Button padding
                       ),
-                      onPressed: () async {
-                        // await signOutWithGoogle();
-                      },
+                      onPressed: (){logout(context);},
                       child: const Text(
                         'Log Out',
                         style: TextStyle(
@@ -124,7 +148,6 @@ class NavigationMenu extends StatelessWidget {
   }
 
   void onPressFunction(BuildContext context, {required int index}) {
-    // Navigator.pop(context);
     switch (index) {
       case 0:
         Navigator.pop(context);
@@ -132,7 +155,11 @@ class NavigationMenu extends StatelessWidget {
 
       case 1:
         Navigator.push(
-            context, CupertinoPageRoute(builder: (context) => myComplain(token: token,)));
+            context,
+            CupertinoPageRoute(
+                builder: (context) => myComplain(
+                      token: widget.token,
+                    )));
         break;
     }
   }
@@ -173,15 +200,16 @@ class NavigationMenu extends StatelessWidget {
 }
 
 class NavigationController extends GetxController {
-
   NavigationController({this.tokendata});
   final tokendata;
 
   final Rx<int> selectedIndex = 0.obs;
   late final screens = [
-    HomeScreen(token: tokendata,),
+    HomeScreen(
+      token: tokendata,
+    ),
     ServicesScreen(),
-    UserProfile(),
-    UserProfile()
+    UserProfile(token: tokendata,),
+    UserProfile(token: tokendata,)
   ];
 }

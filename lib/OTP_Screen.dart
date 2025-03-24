@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ class OTPScreen extends StatefulWidget {
   OTPScreen({super.key, required this.verificationID, required this.phoneNo});
 
   String verificationID;
-  var phoneNo;
+  String phoneNo;
 
   @override
   State<OTPScreen> createState() {
@@ -39,21 +41,24 @@ class _OTPScreenState extends State<OTPScreen> {
   }
 
   void loginUser() async{
-    print('chal raha');
-    // var phoneNumber = int.tryParse(widget.phoneNo.text.toString());
-    var phoneNumber = 7788944674;
+    print('login user function called');
+    String phoneNo = widget.phoneNo.toString(); // Convert to String if not already
+    String modifiedPhoneNo = phoneNo.substring(3); // Remove the first two characters
+    var phoneNumber = int.tryParse(modifiedPhoneNo); // Convert the remaining string to int
+
+    // var phoneNumber = 7788944674;
     print(phoneNumber);
     if(otpValue!=null){
       var reqBody={
         "phoneNo":phoneNumber
       };
 
-      print('chal raha1');
+      print('phone number value fetched');
 
       try {
-        print('chal raha2');
+        print('try block called');
         var response = await http.post(Uri.parse(login),
-            headers: {"content-type": "application/json"},
+            headers: {"content-type":"application/json"},
             body: jsonEncode(reqBody));
         print('chal raha3');
         var jsonResponse = jsonDecode(response.body);
@@ -98,9 +103,9 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void dispose() {
     _OTPController.dispose();
-
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -150,8 +155,8 @@ class _OTPScreenState extends State<OTPScreen> {
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: Text(
+                    margin: const EdgeInsets.only(left: 30),
+                    child: const Text(
                       'NOT RECIEVED?',
                     ),
                   ),
@@ -205,30 +210,25 @@ class _OTPScreenState extends State<OTPScreen> {
                         color: Colors.white,
                         size: 30, // Icon color
                       ),
-                      // onPressed: () async {
-                      //   try {
-                      //     PhoneAuthCredential credential =
-                      //         await PhoneAuthProvider.credential(
-                      //             verificationId: widget.verificationID,
-                      //             smsCode: otpValue.toString());
-                      //     FirebaseAuth.instance
-                      //         .signInWithCredential(credential)
-                      //         .then((value) {
-                      //       Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (context) => RegisterScreen1(),
-                      //         ),
-                      //       );
-                      //     });
-                      //   } catch (ex) {
-                      //     log(ex.toString() as num);
-                      //   }
-                      // },
-                      onPressed: () {
-                        loginUser();
-
+                      onPressed: () async {
+                        try {
+                          PhoneAuthCredential credential =
+                              await PhoneAuthProvider.credential(
+                                  verificationId: widget.verificationID,
+                                  smsCode: otpValue.toString());
+                          FirebaseAuth.instance
+                              .signInWithCredential(credential)
+                              .then((value) {
+                            loginUser();
+                          });
+                        } catch (ex) {
+                          print(ex);
+                        }
                       },
+                      // onPressed: () {
+                      //   loginUser();
+                      //
+                      // },
                     ),
                   ),
                 ],

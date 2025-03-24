@@ -19,16 +19,26 @@ class myComplain extends StatefulWidget {
 }
 
 class myComplainState extends State<myComplain> {
-  late String userId;
+  late String? userId;
   List? items;
    bool _customIcon=false;
 
   @override
   void initState() {
-    super.initState();
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    userId = jwtDecodedToken['_id'];
-    getComplainList(userId);
+
+    print(widget.token);
+    if (widget.token == null || widget.token!.isEmpty) {
+      print("❌ Token is null or empty!");
+      return; // Avoid further execution
+    }
+
+    try {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token!);
+      userId = jwtDecodedToken['_id'];
+      getComplainList(userId);
+    } catch (e) {
+      print("❌ JWT Decoding Error: $e");
+    }
   }
 
   void getComplainList(userId) async {
@@ -87,7 +97,7 @@ class myComplainState extends State<myComplain> {
             ),
             Expanded(
                 child: Padding(
-              padding: EdgeInsets.only(),
+              padding: const EdgeInsets.only(),
               child: items == null
                   ? null
                   : ListView.builder(
@@ -105,7 +115,7 @@ class myComplainState extends State<myComplain> {
                                   color: Colors.blue.withOpacity(0.5),
                                   spreadRadius: 1,
                                   blurRadius: 8,
-                                  offset: Offset(0, 1),
+                                  offset: const Offset(0, 1),
                                 ),
                               ],
                             ),
@@ -121,13 +131,11 @@ class myComplainState extends State<myComplain> {
                                   Theme(
                                     data: Theme.of(context).copyWith(dividerColor: Colors.transparent,splashColor: Colors.transparent),
                                     child: ExpansionTile(
-                                    
-                                    
+
                                       leading: const CircleAvatar(
                                         backgroundColor: Colors.blue,
                                         radius: 12,
                                       ),
-
                                       title: Text(
                                         '${items![index]['Category']}',
                                         style: const TextStyle(
@@ -135,56 +143,57 @@ class myComplainState extends State<myComplain> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      onExpansionChanged: (bool expanded){
+                                        setState(()=>_customIcon=expanded);
+                                      },
                                     
-                                    
+                                      trailing: const Icon(Icons.dehaze_sharp),
+
+
                                       children:  <Widget>[
                                         ListTile(
-                                    
+
                                           title: Text('${items![index]['Description']}'),
-                                          
+
                                         ),
                                         Row(
                                           children: [
-                                    
+
                                             Container(
-                                    
+
+                                              margin: const EdgeInsets.only(left: 20),
+
                                               child: ElevatedButton(
                                                 onPressed: () {},
-                                                child: Text('Solved',style: TextStyle(color: Colors.white),),
                                                 style: ElevatedButton.styleFrom(
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius:
                                                       BorderRadius.circular(5.0),
                                                     ),
                                                     elevation: 3,
-                                                    minimumSize: Size(60, 24),
+                                                    minimumSize: const Size(60, 24),
                                                     backgroundColor: Colors.blue
                                                 ),
+                                                child: const Text('Solved',style: TextStyle(color: Colors.white),),
                                               ),
-                                              margin: EdgeInsets.only(left: 20),
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             ElevatedButton(
                                               onPressed: () {},
-                                              child: Text('Re-Complain',style: TextStyle(color: Colors.black),),
                                               style: ElevatedButton.styleFrom(
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                     BorderRadius.circular(5.0),
                                                   ),
                                                   elevation: 3,
-                                                  minimumSize: Size(60, 24),
+                                                  minimumSize: const Size(60, 24),
                                                   backgroundColor: Colors.white
                                               ),
+                                              child: const Text('Re-Complain',style: TextStyle(color: Colors.black),),
                                             ),
                                           ],
                                         )
                                       ],
-                                      onExpansionChanged: (bool expanded){
-                                        setState(()=>_customIcon=expanded);
-                                      },
-                                    
-                                      trailing: Icon(Icons.dehaze_sharp),
                                     ),
                                   ),
                                   // Row(

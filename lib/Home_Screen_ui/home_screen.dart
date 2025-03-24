@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mydoon/Screens/AlertsListScreen.dart';
 import '../config.dart';
 import 'Category_Second_Row.dart';
 import 'category_icons.dart';
@@ -49,19 +48,22 @@ class _HomeScreenState extends State<HomeScreen> {
     var jsonResponse = jsonDecode(response.body);
     print('chal raha4');
     print(jsonResponse['status']);
-    items = jsonResponse['tokendata'];
+    items = jsonResponse[
+        'tokendata']; //do not change the suggested content by android studio
     print(items);
     setState(() {});
   }
 
   void StartTimer() {
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageControler.page == imagePaths.length - 1) {
         _pageControler.animateToPage(0,
-            duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut);
       } else {
         _pageControler.nextPage(
-            duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut);
       }
     });
   }
@@ -69,6 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    print("token print ho raha");
+    print(widget.token);
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
     fname = jwtDecodedToken['firstName'];
     _pages = List.generate(
@@ -92,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: PageScrollPhysics(),
+          physics: const PageScrollPhysics(),
           child: Column(
             children: [
               Padding(
@@ -108,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Text(
                           fname,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -139,15 +143,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.7),
-                            spreadRadius: 3,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                            spreadRadius: 2.5,
+                            blurRadius: 6,
+                            offset: const Offset(
+                                0, 2.5), // changes position of shadow
                           ),
                         ],
                       ),
-                      margin: EdgeInsets.only(top: 17),
-                      width: 360,
-                      height: MediaQuery.of(context).size.height / 5,
+                      margin: const EdgeInsets.only(top: 17),
+                      width: 355,
+                      height: MediaQuery.of(context).size.height / 5.5,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: PageView.builder(
@@ -182,13 +187,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: InkWell(
                                     onTap: () {
                                       _pageControler.animateToPage(index,
-                                          duration: Duration(milliseconds: 300),
+                                          duration:
+                                              const Duration(milliseconds: 300),
                                           curve: Curves.easeInOut);
                                     },
                                     child: CircleAvatar(
                                       radius: 4,
                                       backgroundColor: _activePage == index
-                                          ? Color.fromARGB(255, 58, 129, 241)
+                                          ? const Color.fromARGB(
+                                              255, 58, 129, 241)
                                           : Colors.grey,
                                     ),
                                   ),
@@ -199,7 +206,46 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               Container(
-                margin: const EdgeInsets.only(top: 10, left: 18),
+                padding: const EdgeInsets.only(left: 15, right: 25),
+                height: 42,
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.only(top: 20),
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(87, 119, 221, 119)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          'Garbage vehicle is on the way...',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 7),
+                          height: 25,
+                          width: 25,
+                          child: Image.asset('assets/vehicleOTW2.png'),
+                        ),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        print('button pressed');
+                      },
+                      child: const Text(
+                        'Track Now',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 8, left: 18),
                 alignment: Alignment.bottomLeft,
                 child: const Text(
                   textAlign: TextAlign.left,
@@ -208,56 +254,90 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 18, bottom: 5),
+                margin: const EdgeInsets.only(top: 12, bottom: 5),
                 child: CategoryIcons(token: widget.token),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 15),
+                margin: const EdgeInsets.only(top: 13, bottom: 13),
                 child: const CategorySecondRow(),
               ),
               Image.asset('assets/Line 25.png'),
-              Container(
-                margin: const EdgeInsets.only(top: 10, left: 25),
-                alignment: Alignment.bottomLeft,
-                child: const Text(
-                  textAlign: TextAlign.left,
-                  'Alerts',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 8, left: 25),
+                    alignment: Alignment.bottomLeft,
+                    child: const Text(
+                      textAlign: TextAlign.left,
+                      'Alerts',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 8, right: 20),
+                    alignment: Alignment.bottomLeft,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => Alertslistscreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        textAlign: TextAlign.left,
+                        'View All',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 14),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Container(
-                margin:
-                    EdgeInsets.only(top: 15, right: 18, left: 18, bottom: 41),
-                height: 100,
+                margin: const EdgeInsets.only(
+                    top: 12, right: 18, left: 18, bottom: 41),
+                height: 98,
+                decoration: BoxDecoration(
+                  // color: Colors.black,
+                  color: const Color.fromARGB(26, 255, 0, 0),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.red),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(padding: EdgeInsets.only(left: 10),
-
+                    Container(
+                      padding: const EdgeInsets.only(left: 10, top: 8),
                       child: SvgPicture.asset('assets/Alert.svg'),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 30),
 
-                      child: Text(
-                        items.toString(),style: TextStyle(fontSize: 16),
+                    Flexible(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 15),
+                        padding: EdgeInsets.only(right: 10),
+                        child: Text(
+                          items.toString(),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                          overflow: TextOverflow.fade,
+                        ),
                       ),
                     ),
+                    // TextButton(onPressed: (){}, child: Text('view all'),)
                   ],
                 ),
-                decoration: BoxDecoration(
-                    // color: Colors.black,
-                    color: Color.fromARGB(26, 255, 0, 0),
-                    borderRadius: BorderRadius.circular(20)),
               ),
               Image.asset('assets/Line 25.png'),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 5),
-                child:CategoryIcons(token: widget.token),
+                child: CategoryIcons(token: widget.token),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 5),
-                child:  CategoryIcons(token: widget.token),
+                child: CategoryIcons(token: widget.token),
               ),
               Image.asset('assets/Line 25.png'),
               Container(

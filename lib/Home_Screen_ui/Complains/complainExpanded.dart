@@ -21,8 +21,14 @@ class complainExpanded extends StatefulWidget {
 class _allComplainState extends State<complainExpanded> {
   List<String> itemsofComplain = [
     "Garbage Collection",
-    "Dead Animal",
-    "Water Leakage"
+    "Dead",
+    "Water Leakage",
+    "Open Manholes",
+    "Public Toilet",
+    "Stagnant Water",
+    "Road Repair",
+    "Public Transport",
+    "Street Light"
   ];
   String? selectedComplain;
   File? selectedImage;
@@ -45,6 +51,7 @@ class _allComplainState extends State<complainExpanded> {
       setState(() {
         selectedImage = File(image.path);
         base64Image = base64Encode(selectedImage!.readAsBytesSync());
+        print(image.path);
         // print(base64Image);
       });
       String uniqueFileName=DateTime.now().millisecondsSinceEpoch.toString();
@@ -57,10 +64,12 @@ class _allComplainState extends State<complainExpanded> {
 
       Reference referenceImageToUplaod =referenceDirImages.child(uniqueFileName);
 
+
       //Store the file
       try{
         await referenceImageToUplaod.putFile(File(image.path));
         imageUrl=await referenceImageToUplaod.getDownloadURL();
+        print(imageUrl);
       }catch(error){
 
       }
@@ -81,6 +90,7 @@ class _allComplainState extends State<complainExpanded> {
         "userId":userId,
         "Category": selectedComplain,
         "Description": descriptionController.text.toString(),
+        "Imageurl":'abcdef',
         "Status": 0,
         "Burst": 0,
         "Lat": 123,
@@ -133,7 +143,7 @@ class _allComplainState extends State<complainExpanded> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               Container(
@@ -190,7 +200,7 @@ class _allComplainState extends State<complainExpanded> {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
-                      'Category: ' + value,
+                      value,
                       style: const TextStyle(
                         fontFamily: 'FontMain/Product Sans Bold.ttf',
                         fontSize: 15,

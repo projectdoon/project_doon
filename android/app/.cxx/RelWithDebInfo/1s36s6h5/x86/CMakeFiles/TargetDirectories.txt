@@ -1,0 +1,2 @@
+/Users/akhildaver/Desktop/project_doon/project_doon/android/app/.cxx/RelWithDebInfo/1s36s6h5/x86/CMakeFiles/edit_cache.dir
+/Users/akhildaver/Desktop/project_doon/project_doon/android/app/.cxx/RelWithDebInfo/1s36s6h5/x86/CMakeFiles/rebuild_cache.dir

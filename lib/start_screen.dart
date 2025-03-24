@@ -20,17 +20,14 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
-
-
-  final _phoneNumberController = TextEditingController();
+  final phoneNumberController = TextEditingController();
   var phoneNumberInput = null;
   final _auth = AuthService();
   String phoneNo = "+91";
-  late String email;
 
   @override
   void dispose() {
-    _phoneNumberController.dispose();
+    phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -84,7 +81,7 @@ class _StartScreenState extends State<StartScreen> {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
                     autofocus: false,
-                    controller: _phoneNumberController,
+                    controller: phoneNumberController,
                     textAlign: TextAlign.start,
                     decoration: const InputDecoration(
                       hintStyle: TextStyle(
@@ -116,39 +113,36 @@ class _StartScreenState extends State<StartScreen> {
                         color: Colors.white,
                         size: 30, // Icon color
                       ),
-                      // onPressed: () async {
-                      //   phoneNo =
-                      //       phoneNo + _phoneNumberController.text.toString();
-                      //   await FirebaseAuth.instance.verifyPhoneNumber(
-                      //     verificationCompleted:
-                      //         (PhoneAuthCredential credential) {},
-                      //     verificationFailed: (FirebaseAuthException ex) {},
-                      //     codeSent: (String verificationid, int? resendToken) {
-                      //       Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (context) => OTPScreen(
-                      //             verificationID: verificationid,
-                      //           ),
-                      //         ),
-                      //       );
-                      //     },
-                      //     codeAutoRetrievalTimeout: (String verificationId) {},
-                      //     phoneNumber: phoneNo.toString(),
-                      //   );
-                      // },
-                      onPressed: () {
-                        phoneNo =
-                            phoneNo + _phoneNumberController.text.toString();
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => OTPScreen(
-                              verificationID: '443424',
-                              phoneNo: _phoneNumberController,
-                            ),
-                          ),
-                        );
+                      onPressed: () async {
+                        try {
+
+                          phoneNo =
+                              phoneNo + phoneNumberController.text.toString();
+                          await FirebaseAuth.instance.verifyPhoneNumber(
+                              verificationCompleted:
+                                  (PhoneAuthCredential credential) {},
+                              verificationFailed: (FirebaseAuthException ex) {},
+                              codeSent:
+                                  (String verificationid, int? resendtoken) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OTPScreen(
+                                      verificationID: verificationid,
+                                      phoneNo: phoneNo,
+                                    ),
+                                  ),
+                                );
+                              },
+                              codeAutoRetrievalTimeout:
+                                  (String verificationId) {},
+                              phoneNumber: phoneNo);
+
+                          phoneNumberController.clear();
+                        } catch (ex) {
+                          print('hehfurhfufhe');
+                          print(ex);
+                        }
                       },
                     ),
                   ),

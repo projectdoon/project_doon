@@ -1,14 +1,18 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mydoon/Home_Screen_ui/Navigation_menu.dart';
 import 'package:http/http.dart' as http;
+import 'package:mydoon/widgets/location_input.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'Providers/user_places.dart';
 import 'config.dart';
+import 'models/place.dart';
 
-class RegisterScreen2 extends StatefulWidget {
+class RegisterScreen2 extends ConsumerStatefulWidget {
   RegisterScreen2({
     super.key,
     required this.fname,
@@ -21,18 +25,39 @@ class RegisterScreen2 extends StatefulWidget {
   var phoneno;
 
   @override
-  State<RegisterScreen2> createState() => _RegisterScreen2State();
+  ConsumerState<RegisterScreen2> createState() => _RegisterScreen2State();
 }
 
-class _RegisterScreen2State extends State<RegisterScreen2> {
+class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
   var address1 = TextEditingController(text: '');
   var address2 = TextEditingController();
   late SharedPreferences prefs;
   bool _isNotValidate = false;
 
+  final _titleController = TextEditingController();
+  File? _selectedImage;
+  PlaceLocation? _selectedLocation;
+
+  void _savePlace() {
+    final enteredTitle = _titleController.text;
+
+    if (enteredTitle.isEmpty ||
+        _selectedImage == null ||
+        _selectedLocation == null) {
+      return;
+    }
+
+    ref
+        .read(userPlacesProvider.notifier)
+        .addPlace(enteredTitle, _selectedImage!, _selectedLocation!);
+
+    Navigator.of(context).pop();
+  }
+
   @override
   void dispose() {
     address1.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
@@ -43,8 +68,8 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
     initSharedPref();
   }
 
-  void initSharedPref() async{
-    prefs=await SharedPreferences.getInstance();
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
   String? Location;
@@ -84,9 +109,10 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
   } //
 
   void registerUser() async {
-    String FirstName = widget.fname.text.toString();
-    String LastName = widget.lname.text.toString();
-    var phoneNumber = int.tryParse(widget.phoneno.text.toString());
+    print("entered into the function");
+    String FirstName = widget.fname.toString();
+    String LastName = widget.lname.toString();
+    var phoneNumber = int.tryParse(widget.phoneno.toString());
     if (address1.text.isNotEmpty && address2.text.isNotEmpty) {
       var regBody = {
         "phoneNo": phoneNumber,
@@ -94,10 +120,11 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
         "lastName": LastName,
         "Lat": lat,
         "Long": long,
-        "email": "afuhjiiii992@gmail.com"
+        "email": "pleaseregister@gmail.com"
       };
 
       try {
+        print("try block");
         var response = await http.post(Uri.parse(registration),
             headers: {"content-type": "application/json"},
             body: jsonEncode(regBody));
@@ -105,7 +132,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
         print(jsonResponse['status']);
 
         if (jsonResponse['status']) {
-          var myToken=jsonResponse['token'];
+          var myToken = jsonResponse['token'];
           prefs.setString('token', myToken);
 
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -113,8 +140,10 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
           ));
           Navigator.push(
             context,
-            CupertinoPageRoute(
-              builder: (context) => NavigationMenu(token: myToken,),
+            MaterialPageRoute(
+              builder: (context) => NavigationMenu(
+                token: myToken,
+              ),
             ),
           );
         } else {
@@ -179,46 +208,13 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                 ),
               ),
               const SizedBox(height: 45),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(left: 40.0),
-                child: const Text(
-                  'Address: ',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 27),
-              SizedBox(
-                width: 450,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 24, 118, 210),
-                      elevation: 2.0, // Button shadow
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10.0), // Rounded corners
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12), // Button padding
-                    ),
-                    onPressed: () async {
-                      getCurrentLocation();
-                    },
-                    child: const Text(
-                      'Auto-Detect Location',
-                      style: TextStyle(
-                        color: Colors.white, // Text color
-                        fontSize: 16, // Text size
-                      ),
-                    ),
-                  ),
-                ),
+              LocationInput(
+                onSelectLocation: (location) {
+                  _selectedLocation = location;
+                },
+                getCurrentLocationFunction: () {
+                  getCurrentLocation();
+                },
               ),
               SizedBox(height: 40),
               Container(

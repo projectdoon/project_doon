@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'MyComplain.dart';
 import 'drawerItems.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+  const UserProfile({super.key, required this.token});
+
+  final token;
 
   @override
   State<UserProfile> createState() {
@@ -42,9 +46,10 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 25),
                 drwaerItems(
-                  name: 'My Complains',
+                  name: 'My Complainsecdcdccdc',
                   icon: Icons.settings,
-                  onPressed: () => onPressFuntion(context, index: 1),
+                  onPressed: () => Navigator.push(
+                      context, CupertinoPageRoute(builder: (context) => myComplain(token:widget.token,))),
                 ),
                 const SizedBox(height: 25),
                 drwaerItems(

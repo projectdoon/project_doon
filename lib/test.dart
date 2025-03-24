@@ -20,7 +20,7 @@ class _testState extends State<test> {
     super.initState();
   }
 
-   String? items;
+  String? items;
   void getAlert() async {
     print('nononon');
     var response = await http.get(Uri.parse(getAlertData),
@@ -41,8 +41,8 @@ class _testState extends State<test> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            items.toString(),
+          Image.network(
+            'https://firebasestorage.googleapis.com/v0/b/mydoonapp-4ccea.appspot.com/o/images%2F1728667785175?alt=media&token=7a34c9cc-f24c-4f65-90ff-3181177f35b8',
           ),
         ],
       ),

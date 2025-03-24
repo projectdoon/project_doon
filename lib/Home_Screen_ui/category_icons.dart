@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'Complains/complainExpanded.dart';
 
 class CategoryIcons extends StatefulWidget {
-  const CategoryIcons({super.key,required this.token});
+  const CategoryIcons({super.key, required this.token});
   final token;
 
   @override
@@ -29,11 +29,13 @@ class _CategoryIconsState extends State<CategoryIcons> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => complainExpanded(token: widget.token,)),
+                  MaterialPageRoute(
+                      builder: (context) => complainExpanded(
+                            token: widget.token,
+                          )),
                 );
               },
               child: Ink(
-
                 height: 68,
                 width: 68,
                 decoration: BoxDecoration(
@@ -50,7 +52,7 @@ class _CategoryIconsState extends State<CategoryIcons> {
             SizedBox(
               height: 8,
             ),
-            Text('Complains'),
+            Text('Complains',style: TextStyle(fontSize: 12),),
           ],
         ),
         Column(
@@ -63,12 +65,11 @@ class _CategoryIconsState extends State<CategoryIcons> {
                 height: 68,
                 width: 68,
                 child: Container(
-
-                  padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: SvgPicture.asset(
-                  'assets/Rupee Sign.svg',
-                  height: 5,
-                )),
+                      'assets/Rupee Sign.svg',
+                      height: 5,
+                    )),
                 decoration: BoxDecoration(
                   border: Border.all(
                       color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
@@ -80,7 +81,7 @@ class _CategoryIconsState extends State<CategoryIcons> {
             SizedBox(
               height: 8,
             ),
-            Text('Bills'),
+            Text('Bills',style: TextStyle(fontSize: 12),),
           ],
         ),
         Column(
@@ -93,14 +94,11 @@ class _CategoryIconsState extends State<CategoryIcons> {
                 height: 68,
                 width: 68,
                 child: Container(
-
-                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: SvgPicture.asset(
                       'assets/notebook_light.svg',
-
                     )),
                 decoration: BoxDecoration(
-
                   border: Border.all(
                       color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
                   color: const Color.fromARGB(255, 176, 205, 249),
@@ -113,7 +111,9 @@ class _CategoryIconsState extends State<CategoryIcons> {
             ),
             Text(
               'Animal\nWelfare',
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(
+                fontSize: 11,
+              ),
             ),
           ],
         ),
@@ -127,13 +127,10 @@ class _CategoryIconsState extends State<CategoryIcons> {
                 height: 68,
                 width: 68,
                 child: Container(
-
-                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: SvgPicture.asset(
                       'assets/Component 8.svg',
-
                     )),
-
                 decoration: BoxDecoration(
                   border: Border.all(
                       color: Color.fromARGB(255, 58, 129, 241), width: 1.5),
@@ -147,9 +144,8 @@ class _CategoryIconsState extends State<CategoryIcons> {
             ),
             Text(
               'Vehicle\n   info',
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 11),
             ),
-
           ],
         ),
       ],
