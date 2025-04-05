@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'config.dart';
+import 'configuration/config.dart';
 
 class test extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class _testState extends State<test> {
   String? items;
   void getAlert() async {
     print('nononon');
-    var response = await http.get(Uri.parse(getAlertData),
+    var response = await http.get(Uri.parse(Config.getAlertData),
         headers: {"content-type": "application/json"});
 
     print('chal raha3');

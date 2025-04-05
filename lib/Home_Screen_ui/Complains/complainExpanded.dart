@@ -6,11 +6,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mydoon/User%20Profile/MyComplain.dart';
-import 'package:mydoon/config.dart';
+import 'package:mydoon/configuration/config.dart';
+import 'package:mydoon/widgets/voice_recorder.dart';
 import 'isRegister.dart';
 
 class complainExpanded extends StatefulWidget {
-  const complainExpanded({super.key,required this.token});
+  const complainExpanded({super.key, required this.token});
 
   final token;
 
@@ -33,7 +34,7 @@ class _allComplainState extends State<complainExpanded> {
   String? selectedComplain;
   File? selectedImage;
   String base64Image = "";
-  String imageUrl='';
+  String imageUrl = '';
   final descriptionController = TextEditingController();
   bool _isNotValidate = false;
   late String userId;
@@ -54,43 +55,41 @@ class _allComplainState extends State<complainExpanded> {
         print(image.path);
         // print(base64Image);
       });
-      String uniqueFileName=DateTime.now().millisecondsSinceEpoch.toString();
+      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
       //get a refrence to storage root
-      Reference referenceRoot =FirebaseStorage.instance.ref();
-      Reference referenceDirImages =referenceRoot.child('images');
+      Reference referenceRoot = FirebaseStorage.instance.ref();
+      Reference referenceDirImages = referenceRoot.child('images');
 
       //create a reference for the image to be stored
 
-      Reference referenceImageToUplaod =referenceDirImages.child(uniqueFileName);
-
+      Reference referenceImageToUplaod =
+          referenceDirImages.child(uniqueFileName);
 
       //Store the file
-      try{
+      try {
         await referenceImageToUplaod.putFile(File(image.path));
-        imageUrl=await referenceImageToUplaod.getDownloadURL();
+        imageUrl = await referenceImageToUplaod.getDownloadURL();
         print(imageUrl);
-      }catch(error){
-
-      }
+      } catch (error) {}
     }
-
   }
+
   @override
   void initState() {
     super.initState();
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-   userId = jwtDecodedToken['_id'];
+    userId = jwtDecodedToken['_id'];
   }
 
   void registerComplain() async {
     print('chala1');
     if (descriptionController.text.isNotEmpty) {
       var complainRegBody = {
-        "userId":userId,
+        "userId": userId,
         "Category": selectedComplain,
         "Description": descriptionController.text.toString(),
-        "Imageurl":'abcdef',
+        "Imageurl": 'abcdef',
         "Status": 0,
         "Burst": 0,
         "Lat": 123,
@@ -101,13 +100,12 @@ class _allComplainState extends State<complainExpanded> {
       try {
         print(userId);
         print(imageUrl);
-        var response = await http.post(Uri.parse(complainRegistration),
+        var response = await http.post(Uri.parse(Config.complainRegistration),
             headers: {"content-type": "application/json"},
             body: jsonEncode(complainRegBody));
         var jsonResponse = jsonDecode(response.body);
         print('chala4');
         print(jsonResponse['status']);
-
 
         if (jsonResponse['status']) {
           print('chala5');
@@ -120,14 +118,14 @@ class _allComplainState extends State<complainExpanded> {
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Isregister()),
+            MaterialPageRoute(
+              builder: (context) => const Isregister(),
+            ),
           );
-
         } else {
           print('something went wrong');
         }
-      }
-      catch (err) {
+      } catch (err) {
         print('nahichala1');
         print(err);
       }
@@ -141,6 +139,7 @@ class _allComplainState extends State<complainExpanded> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -173,156 +172,166 @@ class _allComplainState extends State<complainExpanded> {
                   ],
                 ),
               ),
-
               const SizedBox(
-                height: 95,
+                height: 50,
               ),
-
-              DropdownButton<String>(
-                padding: const EdgeInsets.only(left: 30, right: 30),
-                value: selectedComplain,
-                hint: const Text(
-                  'Type of Complain!',
-                  style: TextStyle(
-                    fontFamily: 'FontMain/Product Sans Bold.ttf',
-                    fontSize: 22,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 30),
+                    child: const Text(
+                      'categories :',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
-                ),
-                isExpanded: true,
-                icon: const Icon(
-                  Icons.arrow_downward_outlined,
-                  color: Colors.black,
-                ),
-                underline: SizedBox(),
-                items: itemsofComplain.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: const TextStyle(
-                        fontFamily: 'FontMain/Product Sans Bold.ttf',
-                        fontSize: 15,
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color.fromARGB(51, 58, 129, 241),
+                    ),
+                    width: 220,
+                    height: 32,
+                    child: DropdownButton<String>(
+                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      value: selectedComplain,
+                      hint: const Text(
+                        'Type of Complain !',
+                        style: TextStyle(
+                          fontFamily: 'FontMain/Product Sans Bold.ttf',
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      isExpanded: true,
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
                         color: Colors.black,
-                        // fontWeight: FontWeight.bold,
                       ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedComplain = value;
-                  });
-                },
-              ),
-
-              const SizedBox(height: 30),
-
-              Container(
-                width: 450,
-                padding: const EdgeInsets.only(left: 30, right: 30),
-                child: TextField(
-
-                  controller: descriptionController,
-                  decoration: InputDecoration(
-                    errorText: _isNotValidate ? "enter proper info" : null,
-                    hintText: 'Add a Comment:',
-                    hintStyle: TextStyle(color: Colors.black),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
+                      underline: const SizedBox(),
+                      items: itemsofComplain.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: const TextStyle(
+                              fontFamily: 'FontMain/Product Sans Bold.ttf',
+                              fontSize: 15,
+                              color: Colors.black,
+                              // fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedComplain = value;
+                        });
+                      },
                     ),
                   ),
-                ),
+                ],
               ),
-
-              const SizedBox(height: 30),
-
-              Container(
-                width: 450,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 24, 118, 210),
-                      elevation: 2.0, // Button shadow
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10.0), // Rounded corners
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12), // Button padding
+              const SizedBox(height: 90),
+              Stack(
+                clipBehavior: Clip.none, // Ensures the circle is not clipped
+                alignment: Alignment.topCenter,
+                children: [
+                  // Rectangular Container
+                  Container(
+                    width: 356,
+                    padding: const EdgeInsets.all(16),
+                    height: 300,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(51, 58, 129, 241),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    onPressed: () async {
-                      select_image("camera");
-                    },
-                    child: const Row(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.upload_rounded,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          'Upload A Picture',
-                          style: TextStyle(
-                            color: Colors.white, // Text color
-                            fontSize: 16, // Text size
+                        Container(
+                          margin: const EdgeInsets.only(
+                              top: 60, left: 15, right: 15),
+                          child: TextField(
+                            controller: descriptionController,
+                            decoration: InputDecoration(
+                              errorText:
+                                  _isNotValidate ? "enter proper info" : null,
+                              hintText: 'Add a Comment:',
+                              hintStyle: const TextStyle(color: Colors.black),
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                            ),
                           ),
+                        ),
+                        const SizedBox(
+                            height: 32), // Space between text field and buttons
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: const Size(142, 110),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 24, 118, 210),
+                                elevation: 2.0, // Button shadow
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10.0), // Rounded corners
+                                ),
+                              ),
+                              onPressed: () async {
+                                select_image("camera");
+                              },
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.upload_rounded,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Upload The Picture',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            VoiceRecorderButton(),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                ),
-              ),
 
-              const SizedBox(height: 35),
-
-              // speak to complain
-              Container(
-                width: 450,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 24, 118, 210),
-                      elevation: 2.0, // Button shadow
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10.0), // Rounded corners
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12), // Button padding
-                    ),
-                    onPressed: () async {},
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.mic,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          'Speak To Complain',
-                          style: TextStyle(
-                            color: Colors.white, // Text color
-                            fontSize: 16, // Text size
+                  Positioned(
+                    top: -50,
+                    child: selectedImage != null
+                        ? CircleAvatar(
+                            radius: 56,
+                            backgroundImage: FileImage(selectedImage!),
+                          )
+                        : CircleAvatar(
+                            radius: 56,
+                            backgroundColor: Colors.grey[200],
+                            child: const Icon(Icons.camera_alt_outlined,
+                                size: 50, color: Colors.grey),
                           ),
-                        ),
-                      ],
-                    ),
                   ),
-                ),
+                ],
               ),
-
               const SizedBox(height: 55),
-
               Container(
-                width: 450,
+                width: 350,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: ElevatedButton(
@@ -346,8 +355,8 @@ class _allComplainState extends State<complainExpanded> {
                         Text(
                           'Register A complain',
                           style: TextStyle(
-                            color: Colors.white, // Text color
-                            fontSize: 16, // Text size
+                            color: Colors.white,
+                            fontSize: 16,
                           ),
                         ),
                       ],
@@ -355,20 +364,6 @@ class _allComplainState extends State<complainExpanded> {
                   ),
                 ),
               ),
-
-              const SizedBox(height: 20),
-
-              if (selectedImage != null)
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: FileImage(selectedImage!),
-                )
-              else
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.grey[300],
-                  child: const Icon(Icons.image, size: 50, color: Colors.grey),
-                ),
             ],
           ),
         ),

@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:hugeicons/hugeicons.dart';
 
-import '../config.dart';
+import '../configuration/config.dart';
 
 class Alertslistscreen extends StatefulWidget {
   const Alertslistscreen({super.key});
@@ -20,7 +21,7 @@ class _AlertslistscreenState extends State<Alertslistscreen> {
     print('initializing getting all alerts...');
     try {
       var response = await http.get(
-        Uri.parse(getAllAlertData),
+        Uri.parse(Config.getAllAlertData),
         headers: {"content-type": "application/json"},
       );
       print('chala2 in my complain');
@@ -45,6 +46,7 @@ class _AlertslistscreenState extends State<Alertslistscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -91,16 +93,20 @@ class _AlertslistscreenState extends State<Alertslistscreen> {
                             itemCount: items!.length,
                             itemBuilder: (context, index) {
                               return Card(
-                                shadowColor: Colors.red,
+                                color: Colors.white,
+                                shadowColor: const Color.fromARGB(255, 255, 0, 0),
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 5),
-                                elevation: 2,
+                                elevation: 3,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: ListTile(
-                                  leading: const Icon(Icons.error_outline_rounded,
-                                      color: Colors.red),
+                                  leading: HugeIcon(
+                                    icon: HugeIcons.strokeRoundedAlert02,
+                                    color: Colors.red,
+                                  ),
+
                                   title: Text(
                                     items![index],
                                     style:

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import '../config.dart';
+import '../configuration/config.dart';
 import 'Category_Second_Row.dart';
 import 'category_icons.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +40,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
   void getAlert() async {
     print('nononon');
-    var response = await http.get(Uri.parse(getAlertData),
+    var response = await http.get(Uri.parse(Config.getAlertData),
         headers: {"content-type": "application/json"});
 
     print('chal raha3');

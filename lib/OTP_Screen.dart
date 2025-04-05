@@ -1,85 +1,84 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mydoon/Providers/auth_provider.dart';
+import 'package:mydoon/Services/auth_services.dart';
 import 'package:mydoon/register_Screen1.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Home_Screen_ui/Navigation_menu.dart';
-import 'config.dart';
+import 'configuration/config.dart';
 
-class OTPScreen extends StatefulWidget {
+class OTPScreen extends ConsumerStatefulWidget {
   OTPScreen({super.key, required this.verificationID, required this.phoneNo});
 
   String verificationID;
   String phoneNo;
 
   @override
-  State<OTPScreen> createState() {
+  ConsumerState<OTPScreen> createState() {
     return _OTPScreenState();
   }
 }
 
-class _OTPScreenState extends State<OTPScreen> {
+class _OTPScreenState extends ConsumerState<OTPScreen> {
   final _OTPController = TextEditingController();
   late SharedPreferences prefs;
   var otpValue = null;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initSharedPref();
   }
 
-  void initSharedPref() async{
-    prefs=await SharedPreferences.getInstance();
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
-  void loginUser() async{
+  void loginUser() async {
     print('login user function called');
-    String phoneNo = widget.phoneNo.toString(); // Convert to String if not already
-    String modifiedPhoneNo = phoneNo.substring(3); // Remove the first two characters
-    var phoneNumber = int.tryParse(modifiedPhoneNo); // Convert the remaining string to int
+    String phoneNo =
+        widget.phoneNo.toString(); // Convert to String if not already
+    String modifiedPhoneNo =
+        phoneNo.substring(3); // Remove the first two characters
+    var phoneNumber =
+        int.tryParse(modifiedPhoneNo); // Convert the remaining string to int
 
-    // var phoneNumber = 7788944674;
+
     print(phoneNumber);
-    if(otpValue!=null){
-      var reqBody={
-        "phoneNo":phoneNumber
-      };
+    if (otpValue != null) {
+      var reqBody = {"phoneNo": phoneNumber};
 
       print('phone number value fetched');
 
       try {
-        print('try block called');
-        var response = await http.post(Uri.parse(login),
-            headers: {"content-type":"application/json"},
+        var response = await http.post(Uri.parse(Config.login),
+            headers: {"content-type": "application/json"},
             body: jsonEncode(reqBody));
-        print('chal raha3');
         var jsonResponse = jsonDecode(response.body);
         print(jsonResponse['status']);
 
-        if (jsonResponse['status']==true) {
-          var myToken=jsonResponse['token'];
-          prefs.setString('token', myToken);
-
+        if (jsonResponse['status'] == true) {
+          var myToken = jsonResponse['token'];
+          handleLogin(ref, myToken);
 
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("logged in Successfully"),
           ));
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             CupertinoPageRoute(
-              builder: (context) => NavigationMenu(token: myToken,),
+              builder: (context) => NavigationMenu(),
             ),
+            (Route<dynamic> route) => false,
           );
-        }
-        else {
+        } else {
           print('something went wrong');
 
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -93,9 +92,7 @@ class _OTPScreenState extends State<OTPScreen> {
           );
         }
       } catch (err) {
-        print('nahi chal raha');
         print(err);
-
       }
     }
   }
@@ -106,10 +103,8 @@ class _OTPScreenState extends State<OTPScreen> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     final defaultPinTheme = PinTheme(
       width: 50,
       height: 50,

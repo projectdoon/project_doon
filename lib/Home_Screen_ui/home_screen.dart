@@ -1,23 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mydoon/Providers/auth_provider.dart';
 import 'package:mydoon/Screens/AlertsListScreen.dart';
-import '../config.dart';
+import '../configuration/config.dart';
 import 'Category_Second_Row.dart';
 import 'category_icons.dart';
 import 'package:http/http.dart' as http;
 
 List<Map<String, String>> userComplain = [];
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.token});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
 
-  final token;
+
 
   @override
-  State<HomeScreen> createState() {
+  ConsumerState<HomeScreen> createState() {
     return _HomeScreenState();
   }
 }
@@ -35,18 +37,17 @@ int _activePage = 0;
 final PageController _pageControler = PageController(initialPage: 0);
 Timer? _timer;
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late final String? token;
   late String fname;
   String? items;
 
   void getAlert() async {
-    print('nononon');
-    var response = await http.get(Uri.parse(getAlertData),
+    var response = await http.get(Uri.parse(Config.getAlertData),
         headers: {"content-type": "application/json"});
 
-    print('chal raha3');
     var jsonResponse = jsonDecode(response.body);
-    print('chal raha4');
+
     print(jsonResponse['status']);
     items = jsonResponse[
         'tokendata']; //do not change the suggested content by android studio
@@ -71,9 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    print("token print ho raha");
-    print(widget.token);
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    token =ref.read(tokenProvider);
+    print("token print ho raha ye raha niche");
+    print(token);
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(token!);
     fname = jwtDecodedToken['firstName'];
     _pages = List.generate(
         imagePaths.length,
@@ -88,12 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: PreferredSize(
-      //     preferredSize: Size.fromHeight(15),
-      //     child: AppBar(
-      //       backgroundColor: Colors.white,
-      //     )),
-
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const PageScrollPhysics(),
@@ -255,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 12, bottom: 5),
-                child: CategoryIcons(token: widget.token),
+                child: CategoryIcons(token: token),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 13, bottom: 13),
@@ -282,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => Alertslistscreen(),
+                            builder: (context) => const Alertslistscreen(),
                           ),
                         );
                       },
@@ -317,10 +313,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Flexible(
                       child: Container(
                         margin: const EdgeInsets.only(left: 15),
-                        padding: EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.only(right: 10),
                         child: Text(
                           items.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w400),
                           overflow: TextOverflow.fade,
                         ),
@@ -333,11 +329,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset('assets/Line 25.png'),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 5),
-                child: CategoryIcons(token: widget.token),
+                child: CategoryIcons(token: token),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 5),
-                child: CategoryIcons(token: widget.token),
+                child: CategoryIcons(token: token),
               ),
               Image.asset('assets/Line 25.png'),
               Container(

@@ -4,13 +4,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mydoon/Backend/MongoDB.dart';
-import 'package:mydoon/Home_Screen_ui/HomeScreen2.dart';
-import 'package:mydoon/Home_Screen_ui/home_screen.dart';
-import 'package:mydoon/Screens/AlertsListScreen.dart';
-import 'package:mydoon/register_Screen2.dart';
+import 'package:mydoon/Providers/auth_provider.dart';
 import 'package:mydoon/start_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Home_Screen_ui/Navigation_menu.dart';
@@ -46,13 +44,17 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  runApp(MyApp(token: token));
+  runApp(ProviderScope(
+    overrides: [
+      tokenProvider
+          .overrideWith((ref) => TokenNotifier()..setToken(token ?? ''))
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.token});
-
-  final String? token;
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,21 +64,19 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: NotificationScreen(token: token),
+      home: const NotificationScreen(),
     );
   }
 }
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key, required this.token});
-
-  final String? token;
+class NotificationScreen extends ConsumerStatefulWidget {
+  const NotificationScreen({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  ConsumerState<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> {
+class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   FirebaseAnalytics _firebaseAnalytics = FirebaseAnalytics.instance;
 
@@ -143,12 +143,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final token = ref.watch(tokenProvider);
     return Scaffold(
-
-
-      body: (widget.token != null && !JwtDecoder.isExpired(widget.token!))
-          ? NavigationMenu(token: widget.token!)
-          : StartScreen(),
+      body: (token != null && !JwtDecoder.isExpired(token))
+          ? NavigationMenu()
+          : const StartScreen(),
     );
   }
 }

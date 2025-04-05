@@ -2,38 +2,40 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:mydoon/config.dart';
+import 'package:mydoon/Providers/auth_provider.dart';
+import 'package:mydoon/configuration/config.dart';
 import '../Home_Screen_ui/home_screen.dart';
 import 'package:http/http.dart' as http;
 
-class myComplain extends StatefulWidget {
-  const myComplain({super.key, required this.token});
-
-  final token;
+class myComplain extends ConsumerStatefulWidget {
+  const myComplain({super.key});
 
   @override
-  State<myComplain> createState() {
+  ConsumerState<myComplain> createState() {
     return myComplainState();
   }
 }
 
-class myComplainState extends State<myComplain> {
+class myComplainState extends ConsumerState<myComplain> {
+  late final String? token;
   late String? userId;
   List? items;
-   bool _customIcon=false;
+  bool _customIcon = false;
 
   @override
   void initState() {
+    token = ref.read(tokenProvider);
 
-    print(widget.token);
-    if (widget.token == null || widget.token!.isEmpty) {
+    print(token);
+    if (token == null || token!.isEmpty) {
       print("❌ Token is null or empty!");
-      return; // Avoid further execution
+      return;
     }
 
     try {
-      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token!);
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(token!);
       userId = jwtDecodedToken['_id'];
       getComplainList(userId);
     } catch (e) {
@@ -43,17 +45,16 @@ class myComplainState extends State<myComplain> {
 
   void getComplainList(userId) async {
     var regBody = {"userId": userId};
-    print('chala2 in my complain');
 
     try {
       print(userId);
-      var response = await http.post(Uri.parse(getComplainData),
+      var response = await http.post(Uri.parse(Config.getComplainData),
           headers: {"content-type": "application/json"},
           body: jsonEncode(regBody));
-      print('chala2 in my complain');
+
       print(response.body);
       var jsonResponse = jsonDecode(response.body);
-      print('chala3 in my complain');
+
       print(jsonResponse['status']);
       items = jsonResponse['success'];
       print(items);
@@ -125,13 +126,13 @@ class myComplainState extends State<myComplain> {
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
                               elevation: 0,
-
                               child: Column(
                                 children: [
                                   Theme(
-                                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent,splashColor: Colors.transparent),
+                                    data: Theme.of(context).copyWith(
+                                        dividerColor: Colors.transparent,
+                                        splashColor: Colors.transparent),
                                     child: ExpansionTile(
-
                                       leading: const CircleAvatar(
                                         backgroundColor: Colors.blue,
                                         radius: 12,
@@ -143,53 +144,62 @@ class myComplainState extends State<myComplain> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      onExpansionChanged: (bool expanded){
-                                        setState(()=>_customIcon=expanded);
+                                      onExpansionChanged: (bool expanded) {
+                                        setState(() => _customIcon = expanded);
                                       },
-                                    
                                       trailing: const Icon(Icons.dehaze_sharp),
-
-
-                                      children:  <Widget>[
+                                      children: <Widget>[
                                         ListTile(
-
-                                          title: Text('${items![index]['Description']}'),
-
+                                          title: Text(
+                                              '${items![index]['Description']}'),
                                         ),
                                         Row(
                                           children: [
-
                                             Container(
-
-                                              margin: const EdgeInsets.only(left: 20),
-
+                                              margin: const EdgeInsets.only(
+                                                  left: 20),
                                               child: ElevatedButton(
                                                 onPressed: () {},
                                                 style: ElevatedButton.styleFrom(
-                                                    shape: RoundedRectangleBorder(
+                                                    shape:
+                                                        RoundedRectangleBorder(
                                                       borderRadius:
-                                                      BorderRadius.circular(5.0),
+                                                          BorderRadius.circular(
+                                                              5.0),
                                                     ),
                                                     elevation: 3,
-                                                    minimumSize: const Size(60, 24),
-                                                    backgroundColor: Colors.blue
+                                                    minimumSize:
+                                                        const Size(60, 24),
+                                                    backgroundColor:
+                                                        Colors.blue),
+                                                child: const Text(
+                                                  'Solved',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
                                                 ),
-                                                child: const Text('Solved',style: TextStyle(color: Colors.white),),
                                               ),
                                             ),
-                                            const SizedBox(width: 10,),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
                                             ElevatedButton(
                                               onPressed: () {},
                                               style: ElevatedButton.styleFrom(
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                    BorderRadius.circular(5.0),
+                                                        BorderRadius.circular(
+                                                            5.0),
                                                   ),
                                                   elevation: 3,
-                                                  minimumSize: const Size(60, 24),
-                                                  backgroundColor: Colors.white
+                                                  minimumSize:
+                                                      const Size(60, 24),
+                                                  backgroundColor:
+                                                      Colors.white),
+                                              child: const Text(
+                                                'Re-Complain',
+                                                style: TextStyle(
+                                                    color: Colors.black),
                                               ),
-                                              child: const Text('Re-Complain',style: TextStyle(color: Colors.black),),
                                             ),
                                           ],
                                         )

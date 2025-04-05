@@ -1,123 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../User Profile/MyComplain.dart';
-import '../User Profile/drawerItems.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:mydoon/Providers/auth_provider.dart';
 import '../User Profile/profileSection.dart';
-import '../start_screen.dart';
 import 'Services_screen.dart';
 import 'home_screen.dart';
 
-class NavigationMenu extends StatefulWidget {
-  NavigationMenu({super.key, this.token});
-  final token;
+class NavigationMenu extends ConsumerStatefulWidget {
+  const NavigationMenu({super.key});
 
   @override
-  State<NavigationMenu> createState() => _NavigationMenuState();
+  ConsumerState<NavigationMenu> createState() => _NavigationMenuState();
 }
 
-class _NavigationMenuState extends State<NavigationMenu> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+class _NavigationMenuState extends ConsumerState<NavigationMenu> {
+  late final String? token;
+  late NavigationController controller;
 
-
-  Future<void> logout(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token'); // Remove token from storage
-    print("User logged out successfully.");
-
-    // Navigate to the login or start screen
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => StartScreen()),
-    );
+  @override
+  void initState() {
+    super.initState();
+    token = ref.read(tokenProvider);
+    controller = Get.put(NavigationController(tokendata: token));
   }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(NavigationController(tokendata: widget.token));
-
-    final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: Container(
-        width: screenWidth * 0.72,
-        child: Drawer(
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 80, 12, 0),
-              child: Column(
-                children: [
-                  headerWidget(),
-                  const SizedBox(height: 45),
-                  drwaerItems(
-                    name: 'Home',
-                    icon: Icons.home,
-                    onPressed: () => onPressFunction(context, index: 0),
-                  ),
-                  const SizedBox(height: 25),
-                  drwaerItems(
-                    name: 'My Complains',
-                    icon: Icons.settings,
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => myComplain(
-                                  token: widget.token,
-                                ))),
-                  ),
-                  const SizedBox(height: 25),
-                  drwaerItems(
-                    name: 'My Bills ',
-                    icon: Icons.settings,
-                    onPressed: () => onPressFunction(context, index: 2),
-                  ),
-                  const SizedBox(height: 25),
-                  drwaerItems(
-                    name: 'My Pet',
-                    icon: Icons.settings,
-                    onPressed: () => onPressFunction(context, index: 3),
-                  ),
-                  const SizedBox(height: 25),
-                  drwaerItems(
-                    name: 'My Challan',
-                    icon: Icons.settings,
-                    onPressed: () => onPressFunction(context, index: 4),
-                  ),
-                  const SizedBox(height: 110),
-                  Container(
-                    width: 180,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                            225, 255, 0, 0), // Button color
-                        elevation: 5.0, // Button shadow
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(20.0), // Rounded corners
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12), // Button padding
-                      ),
-                      onPressed: (){logout(context);},
-                      child: const Text(
-                        'Log Out',
-                        style: TextStyle(
-                          color: Colors.white, // Text color
-                          fontSize: 16, // Text size
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+      endDrawer: const UserProfile(),
       bottomNavigationBar: Obx(
         () => NavigationBar(
           backgroundColor: Colors.white,
@@ -125,7 +42,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
           shadowColor: Colors.black,
           elevation: 15,
           selectedIndex: controller.selectedIndex.value,
-          indicatorColor: Color.fromARGB(76, 58, 129, 241),
+          indicatorColor: const Color.fromARGB(76, 58, 129, 241),
           onDestinationSelected: (index) {
             if (index == 3) {
               _scaffoldKey.currentState?.openEndDrawer();
@@ -133,35 +50,35 @@ class _NavigationMenuState extends State<NavigationMenu> {
               controller.selectedIndex.value = index;
             }
           },
-          destinations: const [
-            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Icons.apps), label: 'Services'),
+          destinations: [
             NavigationDestination(
-                icon: Icon(Icons.headphones), label: 'Contact Us'),
+                icon: HugeIcon(
+                  icon: HugeIcons.strokeRoundedHome03,
+                  color: Colors.black,
+                ),
+                label: 'Home'),
             NavigationDestination(
-                icon: Icon(Icons.account_circle_outlined), label: 'My Profile'),
+                icon: HugeIcon(
+                  icon: HugeIcons.strokeRoundedDashboardSquareAdd,
+                  color: Colors.black,
+                ),
+                label: 'Services'),
+            NavigationDestination(
+                icon: HugeIcon(
+                  icon: HugeIcons.strokeRoundedHeadphones,
+                  color: Colors.black,
+                ),
+                label: 'Contact Us'),
+            NavigationDestination(
+                icon: HugeIcon(
+                    icon: HugeIcons.strokeRoundedAccountSetting02,
+                    color: Colors.black),
+                label: 'My Profile'),
           ],
         ),
       ),
       body: Obx(() => controller.screens[controller.selectedIndex.value]),
     );
-  }
-
-  void onPressFunction(BuildContext context, {required int index}) {
-    switch (index) {
-      case 0:
-        Navigator.pop(context);
-        break;
-
-      case 1:
-        Navigator.push(
-            context,
-            CupertinoPageRoute(
-                builder: (context) => myComplain(
-                      token: widget.token,
-                    )));
-        break;
-    }
   }
 
   Widget headerWidget() {
@@ -181,7 +98,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           TextButton(
             onPressed: () {},
             child: const Text(
@@ -200,16 +117,15 @@ class _NavigationMenuState extends State<NavigationMenu> {
 }
 
 class NavigationController extends GetxController {
+  final PageController pageController = PageController();
   NavigationController({this.tokendata});
   final tokendata;
 
   final Rx<int> selectedIndex = 0.obs;
   late final screens = [
-    HomeScreen(
-      token: tokendata,
-    ),
-    ServicesScreen(),
-    UserProfile(token: tokendata,),
-    UserProfile(token: tokendata,)
+    const HomeScreen(),
+    const ServicesScreen(),
+    const UserProfile(),
+    const UserProfile(),
   ];
 }

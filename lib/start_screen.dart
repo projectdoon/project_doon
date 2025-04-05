@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:mydoon/register_Screen1.dart';
 import 'authServices/auth.dart';
 
@@ -64,6 +65,7 @@ class _StartScreenState extends State<StartScreen> {
                 height: 25,
               ),
               Container(
+                padding: EdgeInsets.only(left: 12),
                 height: 45,
                 width: 325,
                 decoration: BoxDecoration(
@@ -77,21 +79,39 @@ class _StartScreenState extends State<StartScreen> {
                     Radius.circular(8),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: TextField(
-                    autofocus: false,
-                    controller: phoneNumberController,
-                    textAlign: TextAlign.start,
-                    decoration: const InputDecoration(
-                      hintStyle: TextStyle(
-                          color: Color.fromARGB(255, 130, 130, 130),
-                          fontSize: 19,
-                          fontWeight: FontWeight.normal),
-                      hintText: '+91  Phone No.',
-                      border: InputBorder.none,
+                child: Row(
+                  children: [
+                    Text(
+                      '+91 :',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: TextField(
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 18),
+                          autofocus: false,
+                          controller: phoneNumberController,
+                          textAlign: TextAlign.start,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            suffixIcon: Icon(
+                              Icons.phone_enabled_outlined,
+                            ),
+                            hintStyle: TextStyle(
+                                color: Color.fromARGB(255, 130, 130, 130),
+                                fontSize: 19,
+                                fontWeight: FontWeight.normal),
+                            hintText: 'Phone No.',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(
@@ -115,7 +135,6 @@ class _StartScreenState extends State<StartScreen> {
                       ),
                       onPressed: () async {
                         try {
-
                           phoneNo =
                               phoneNo + phoneNumberController.text.toString();
                           await FirebaseAuth.instance.verifyPhoneNumber(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mydoon/Home_Screen_ui/Complains/quickDraglist.dart';
+import 'package:mydoon/Screens/GovtSchemes.dart';
 import 'package:mydoon/scheme.dart';
 import 'package:mydoon/services_gov.dart';
 
@@ -38,7 +39,7 @@ class _CategorySecondRowState extends State<CategorySecondRow> {
                     padding: EdgeInsets.all(10),
                   ),
                   onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => GovSchemes())),
+                      MaterialPageRoute(builder: (context) => Govtschemes())),
                   child: SvgPicture.asset(
                     'assets/notebook_light.svg',
                     height: 50,

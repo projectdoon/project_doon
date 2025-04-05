@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:mydoon/widgets/location_input.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/user_places.dart';
-import 'config.dart';
+import 'configuration/config.dart';
 import 'models/place.dart';
 
 class RegisterScreen2 extends ConsumerStatefulWidget {
@@ -86,8 +86,6 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
     } else {
       Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-
-      print('hiiiiiiii');
       print(widget.fname);
       print(widget.phoneno);
       lat = currentPosition.latitude;
@@ -125,7 +123,7 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
 
       try {
         print("try block");
-        var response = await http.post(Uri.parse(registration),
+        var response = await http.post(Uri.parse(Config.registration),
             headers: {"content-type": "application/json"},
             body: jsonEncode(regBody));
         var jsonResponse = jsonDecode(response.body);
@@ -141,9 +139,7 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NavigationMenu(
-                token: myToken,
-              ),
+              builder: (context) => NavigationMenu(),
             ),
           );
         } else {
@@ -289,7 +285,7 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
                       contentPadding: EdgeInsets.only(left: 16.0)),
                 ),
               ),
-              SizedBox(height: 75),
+              const SizedBox(height: 75),
               Stack(
                 children: [
                   Positioned.fill(

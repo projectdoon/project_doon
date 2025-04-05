@@ -81,6 +81,7 @@ class _CategoryIconsState extends State<CategoryIcons> {
             SizedBox(
               height: 8,
             ),
+
             Text('Bills',style: TextStyle(fontSize: 12),),
           ],
         ),
@@ -89,7 +90,8 @@ class _CategoryIconsState extends State<CategoryIcons> {
             InkWell(
               borderRadius: BorderRadius.circular(10),
               splashColor: Color.fromARGB(50, 255, 255, 255),
-              onTap: () {},
+              onTap: () {
+              },
               child: Ink(
                 height: 68,
                 width: 68,
