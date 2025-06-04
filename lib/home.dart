@@ -1,9 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-
-import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,8 +13,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _NameController = TextEditingController();
 
-  late String latitude ;
-  late String longitude ;
+  late String latitude;
+  late String longitude;
 
   @override
   void dispose() {
@@ -33,24 +29,18 @@ class _HomePageState extends State<HomePage> {
         permission == LocationPermission.deniedForever) {
       print("Location denied");
       LocationPermission ask = await Geolocator.requestPermission();
-    }
-
-    else {
+    } else {
       Position currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
-      latitude=currentPosition.latitude.toString();
-      longitude=currentPosition.longitude.toString();
-      
-      print(latitude);
-      print(longitude);
+      latitude = currentPosition.latitude.toString();
+      longitude = currentPosition.longitude.toString();
       setState(() {
-        LocationMessage="latitude = $latitude  longitude = $longitude";
+        LocationMessage = "latitude = $latitude  longitude = $longitude";
       });
-
     }
   }
 
-  String LocationMessage ='current location is';
+  String LocationMessage = 'current location is';
 
   @override
   Widget build(BuildContext context) {
@@ -68,18 +58,13 @@ class _HomePageState extends State<HomePage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-
-              const SizedBox(height: 20,),
-
+              const SizedBox(
+                height: 20,
+              ),
               Text(LocationMessage),
-
-
-
               ElevatedButton(
                 onPressed: () {
-                  print('hii');
                   getCurrentLocation();
-
                 },
                 child: const Text('detect my location'),
               )

@@ -47,17 +47,14 @@ class myComplainState extends ConsumerState<myComplain> {
     var regBody = {"userId": userId};
 
     try {
-      print(userId);
       var response = await http.post(Uri.parse(Config.getComplainData),
-          headers: {"content-type": "application/json"},
+          headers: {
+            'Authorization': 'Bearer $token',
+            "content-type": "application/json"
+          },
           body: jsonEncode(regBody));
-
-      print(response.body);
       var jsonResponse = jsonDecode(response.body);
-
-      print(jsonResponse['status']);
       items = jsonResponse['success'];
-      print(items);
 
       setState(() {});
     } catch (err) {
@@ -133,6 +130,7 @@ class myComplainState extends ConsumerState<myComplain> {
                                         dividerColor: Colors.transparent,
                                         splashColor: Colors.transparent),
                                     child: ExpansionTile(
+                                      key: ValueKey(index),
                                       leading: const CircleAvatar(
                                         backgroundColor: Colors.blue,
                                         radius: 12,
@@ -206,42 +204,6 @@ class myComplainState extends ConsumerState<myComplain> {
                                       ],
                                     ),
                                   ),
-                                  // Row(
-                                  //   children: [
-                                  //
-                                  //     Container(
-                                  //
-                                  //       child: ElevatedButton(
-                                  //         onPressed: () {},
-                                  //         child: Text('Solved',style: TextStyle(color: Colors.white),),
-                                  //         style: ElevatedButton.styleFrom(
-                                  //           shape: RoundedRectangleBorder(
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(5.0),
-                                  //           ),
-                                  //           elevation: 3,
-                                  //           minimumSize: Size(60, 24),
-                                  //           backgroundColor: Colors.blue
-                                  //         ),
-                                  //       ),
-                                  //       margin: EdgeInsets.only(left: 20),
-                                  //     ),
-                                  //     SizedBox(width: 10,),
-                                  //     ElevatedButton(
-                                  //       onPressed: () {},
-                                  //       child: Text('Re-Complain',style: TextStyle(color: Colors.black),),
-                                  //       style: ElevatedButton.styleFrom(
-                                  //           shape: RoundedRectangleBorder(
-                                  //             borderRadius:
-                                  //             BorderRadius.circular(5.0),
-                                  //           ),
-                                  //           elevation: 3,
-                                  //           minimumSize: Size(60, 24),
-                                  //           backgroundColor: Colors.white
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // )
                                 ],
                               ),
                             ),

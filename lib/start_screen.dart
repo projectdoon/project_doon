@@ -1,15 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hugeicons/hugeicons.dart';
-import 'package:mydoon/register_Screen1.dart';
 import 'authServices/auth.dart';
-
 import 'OTP_Screen.dart';
-import 'authServices/auth.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -22,7 +16,7 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   final phoneNumberController = TextEditingController();
-  var phoneNumberInput = null;
+  var phoneNumberInput;
   final _auth = AuthService();
   String phoneNo = "+91";
 
@@ -65,7 +59,7 @@ class _StartScreenState extends State<StartScreen> {
                 height: 25,
               ),
               Container(
-                padding: EdgeInsets.only(left: 12),
+                padding: const EdgeInsets.only(left: 12),
                 height: 45,
                 width: 325,
                 decoration: BoxDecoration(
@@ -134,9 +128,10 @@ class _StartScreenState extends State<StartScreen> {
                         size: 30, // Icon color
                       ),
                       onPressed: () async {
+                        phoneNo =
+                            phoneNo + phoneNumberController.text.toString();
+                        phoneNumberController.text='';
                         try {
-                          phoneNo =
-                              phoneNo + phoneNumberController.text.toString();
                           await FirebaseAuth.instance.verifyPhoneNumber(
                               verificationCompleted:
                                   (PhoneAuthCredential credential) {},
@@ -156,10 +151,7 @@ class _StartScreenState extends State<StartScreen> {
                               codeAutoRetrievalTimeout:
                                   (String verificationId) {},
                               phoneNumber: phoneNo);
-
-                          phoneNumberController.clear();
                         } catch (ex) {
-                          print('hehfurhfufhe');
                           print(ex);
                         }
                       },

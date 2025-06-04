@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mydoon/Providers/auth_provider.dart';
 import 'package:mydoon/Services/auth_services.dart';
 import 'package:mydoon/register_Screen1.dart';
 import 'package:pinput/pinput.dart';
@@ -42,27 +41,18 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
   }
 
   void loginUser() async {
-    print('login user function called');
-    String phoneNo =
-        widget.phoneNo.toString(); // Convert to String if not already
-    String modifiedPhoneNo =
-        phoneNo.substring(3); // Remove the first two characters
-    var phoneNumber =
-        int.tryParse(modifiedPhoneNo); // Convert the remaining string to int
+    String phoneNo = widget.phoneNo.toString();
+    String modifiedPhoneNo = phoneNo.substring(3);
+    var phoneNumber = int.tryParse(modifiedPhoneNo);
 
-
-    print(phoneNumber);
     if (otpValue != null) {
       var reqBody = {"phoneNo": phoneNumber};
-
-      print('phone number value fetched');
 
       try {
         var response = await http.post(Uri.parse(Config.login),
             headers: {"content-type": "application/json"},
             body: jsonEncode(reqBody));
         var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse['status']);
 
         if (jsonResponse['status'] == true) {
           var myToken = jsonResponse['token'];
@@ -74,13 +64,11 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
           Navigator.pushAndRemoveUntil(
             context,
             CupertinoPageRoute(
-              builder: (context) => NavigationMenu(),
+              builder: (context) => const NavigationMenu(),
             ),
             (Route<dynamic> route) => false,
           );
         } else {
-          print('something went wrong');
-
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("please register yourself"),
           ));
@@ -155,12 +143,10 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                       'NOT RECIEVED?',
                     ),
                   ),
-                  Container(
-                    child: TextButton(
-                      style: TextButton.styleFrom(foregroundColor: Colors.blue),
-                      child: Text('CHANGE NUMBER'),
-                      onPressed: () {},
-                    ),
+                  TextButton(
+                    style: TextButton.styleFrom(foregroundColor: Colors.blue),
+                    child: const Text('CHANGE NUMBER'),
+                    onPressed: () {},
                   ),
                 ],
               ),
@@ -172,13 +158,13 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                 defaultPinTheme: defaultPinTheme,
                 followingPinTheme: defaultPinTheme.copyWith(
                   decoration: defaultPinTheme.decoration!.copyWith(
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: const Color.fromARGB(255, 255, 255, 255),
                     border: Border.all(color: Colors.black),
                   ),
                 ),
                 focusedPinTheme: defaultPinTheme.copyWith(
                   decoration: defaultPinTheme.decoration!.copyWith(
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: const Color.fromARGB(255, 255, 255, 255),
                     border: Border.all(color: Colors.black),
                   ),
                 ),

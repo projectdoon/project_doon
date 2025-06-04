@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../Navigation_menu.dart';
 
 class Isregister extends StatefulWidget {
@@ -44,7 +42,7 @@ class _IsregisterState extends State<Isregister> {
                 ],
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Container(
               margin: const EdgeInsets.only(top: 16),
               width: MediaQuery.of(context).size.width * 0.7,
@@ -55,13 +53,13 @@ class _IsregisterState extends State<Isregister> {
               // ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
+                image: const DecorationImage(
                   image: AssetImage('assets/Male Memojis.png'),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             const Text(
               'Your Complain is Registered!',
               style: TextStyle(
@@ -70,7 +68,7 @@ class _IsregisterState extends State<Isregister> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 45),
+            const SizedBox(height: 45),
             Container(
               width: MediaQuery.of(context).size.width * 0.5,
               child: Padding(
@@ -90,7 +88,7 @@ class _IsregisterState extends State<Isregister> {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NavigationMenu(),
+                        builder: (context) => const NavigationMenu(),
                       ),(route)=>false
                     );
                   },

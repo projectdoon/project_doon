@@ -1,36 +1,34 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:hugeicons/hugeicons.dart';
+import 'package:mydoon/Providers/auth_provider.dart';
 
 import '../configuration/config.dart';
 
-class Alertslistscreen extends StatefulWidget {
+class Alertslistscreen extends ConsumerStatefulWidget {
   const Alertslistscreen({super.key});
 
   @override
-  State<Alertslistscreen> createState() => _AlertslistscreenState();
+  ConsumerState<Alertslistscreen> createState() => _AlertslistscreenState();
 }
 
-class _AlertslistscreenState extends State<Alertslistscreen> {
+class _AlertslistscreenState extends ConsumerState<Alertslistscreen> {
   List? items;
+  late final String? token;
 
   void getAllAlerts() async {
-    print('initializing getting all alerts...');
     try {
       var response = await http.get(
         Uri.parse(Config.getAllAlertData),
-        headers: {"content-type": "application/json"},
+        headers: {
+          'Authorization': 'Bearer $token',
+          "content-type": "application/json"
+        },
       );
-      print('chala2 in my complain');
-      print(response.body);
       var jsonResponse = jsonDecode(response.body);
-      print('chala3 in my complain');
-      print(jsonResponse['status']);
       items = jsonResponse['success'];
-      print(items);
 
       setState(() {});
     } catch (err) {
@@ -38,7 +36,9 @@ class _AlertslistscreenState extends State<Alertslistscreen> {
     }
   }
 
+  @override
   void initState() {
+    token = ref.read(tokenProvider);
     getAllAlerts();
     super.initState();
   }
@@ -75,7 +75,9 @@ class _AlertslistscreenState extends State<Alertslistscreen> {
                 ],
               ),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(),
@@ -86,7 +88,7 @@ class _AlertslistscreenState extends State<Alertslistscreen> {
                     : items!.isEmpty
                         ? const Center(
                             child: Center(
-                              child: Text('No Alerts Availaible'),
+                              child: Text('No Alerts Available'),
                             ),
                           ) // Show loading indicator
                         : ListView.builder(
@@ -94,7 +96,8 @@ class _AlertslistscreenState extends State<Alertslistscreen> {
                             itemBuilder: (context, index) {
                               return Card(
                                 color: Colors.white,
-                                shadowColor: const Color.fromARGB(255, 255, 0, 0),
+                                shadowColor:
+                                    const Color.fromARGB(255, 255, 0, 0),
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 5),
                                 elevation: 3,
@@ -106,14 +109,17 @@ class _AlertslistscreenState extends State<Alertslistscreen> {
                                     icon: HugeIcons.strokeRoundedAlert02,
                                     color: Colors.red,
                                   ),
-
                                   title: Text(
                                     items![index],
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w400),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w400),
                                   ),
-                                  subtitle: const Text("Stay Safe!",style: TextStyle(color: Color.fromARGB(
-                                      255, 199, 60, 60)),),
+                                  subtitle: const Text(
+                                    "Stay Safe!",
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 199, 60, 60)),
+                                  ),
                                 ),
                               );
                             },

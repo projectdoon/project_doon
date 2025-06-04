@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
-import 'package:mydoon/register_Screen2.dart';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({
@@ -168,11 +167,11 @@ class _LocationInputState extends State<LocationInput> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 45,
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 32),
+                  padding: const EdgeInsets.only(left: 32),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 24, 118, 210),
@@ -200,9 +199,9 @@ class _LocationInputState extends State<LocationInput> {
             Container(
               height: 140,
               width: 140,
-              margin: EdgeInsets.only(right: 20),
+              margin: const EdgeInsets.only(right: 20),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 215, 215, 215),
+                color: const Color.fromARGB(255, 215, 215, 215),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Stack(
@@ -212,7 +211,7 @@ class _LocationInputState extends State<LocationInput> {
                   if (_isGettingLocation)
                     Container(
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 215, 215, 215),
+                        color: const Color.fromARGB(255, 215, 215, 215),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Center(

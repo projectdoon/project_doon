@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mydoon/Home_Screen_ui/category_icon_third.dart';
+import 'package:mydoon/Home_Screen_ui/cateogry_public_amenities.dart';
 import 'package:mydoon/Providers/auth_provider.dart';
 import 'package:mydoon/Screens/AlertsListScreen.dart';
 import '../configuration/config.dart';
@@ -15,8 +17,6 @@ List<Map<String, String>> userComplain = [];
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
-
-
 
   @override
   ConsumerState<HomeScreen> createState() {
@@ -43,38 +43,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   String? items;
 
   void getAlert() async {
-    var response = await http.get(Uri.parse(Config.getAlertData),
-        headers: {"content-type": "application/json"});
+    var response = await http.get(Uri.parse(Config.getAlertData), headers: {
+      'Authorization': 'Bearer $token',
+      "content-type": "application/json"
+    });
 
     var jsonResponse = jsonDecode(response.body);
 
-    print(jsonResponse['status']);
     items = jsonResponse[
         'tokendata']; //do not change the suggested content by android studio
-    print(items);
-    setState(() {});
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void StartTimer() {
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      if (_pageControler.page == imagePaths.length - 1) {
-        _pageControler.animateToPage(0,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut);
-      } else {
-        _pageControler.nextPage(
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut);
+      if (mounted) {
+        if (_pageControler.page == imagePaths.length - 1) {
+          _pageControler.animateToPage(0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut);
+        } else {
+          _pageControler.nextPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut);
+        }
       }
     });
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
-    token =ref.read(tokenProvider);
-    print("token print ho raha ye raha niche");
-    print(token);
+    token = ref.read(tokenProvider);
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(token!);
     fname = jwtDecodedToken['firstName'];
     _pages = List.generate(
@@ -96,7 +106,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5),
+                padding: const EdgeInsets.only(left: 5, right: 5, top: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -114,11 +124,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     Row(
                       children: [
-                        IconButton(
-                          iconSize: 27,
-                          icon: const Icon(Icons.search),
-                          onPressed: () {},
-                        ),
                         IconButton(
                           iconSize: 27,
                           icon: const Icon(Icons.notifications_on_outlined),
@@ -191,7 +196,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       radius: 4,
                                       backgroundColor: _activePage == index
                                           ? const Color.fromARGB(
-                                              255, 58, 129, 241)
+                                              255, 255, 255, 255)
                                           : Colors.grey,
                                     ),
                                   ),
@@ -205,9 +210,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 padding: const EdgeInsets.only(left: 15, right: 25),
                 height: 42,
                 width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.only(top: 20),
-                decoration: const BoxDecoration(
-                    color: Color.fromARGB(87, 119, 221, 119)),
+                margin: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: const Color.fromARGB(87, 119, 221, 119)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -226,9 +232,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ],
                     ),
                     GestureDetector(
-                      onTap: () {
-                        print('button pressed');
-                      },
+                      onTap: () {},
                       child: const Text(
                         'Track Now',
                         style: TextStyle(
@@ -240,24 +244,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 8, left: 18),
-                alignment: Alignment.bottomLeft,
-                child: const Text(
-                  textAlign: TextAlign.left,
-                  'All services',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
+              const SizedBox(
+                height: 15,
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 12, bottom: 5),
-                child: CategoryIcons(token: token),
+              Stack(
+                children: [
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: const Color.fromARGB(15, 58, 129, 241),
+                      ),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 260,
+                      width: double.infinity,
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 8, left: 18),
+                        alignment: Alignment.bottomLeft,
+                        child: const Text(
+                          textAlign: TextAlign.left,
+                          'For You',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 12, bottom: 5),
+                        child: const CategoryIcons(),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 13, bottom: 13),
+                        child: const CategorySecondRow(),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 13, bottom: 13),
-                child: const CategorySecondRow(),
-              ),
-              Image.asset('assets/Line 25.png'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -268,7 +294,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       textAlign: TextAlign.left,
                       'Alerts',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                   ),
                   Container(
@@ -322,20 +348,78 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                     ),
-                    // TextButton(onPressed: (){}, child: Text('view all'),)
                   ],
                 ),
               ),
-              Image.asset('assets/Line 25.png'),
-              Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 5),
-                child: CategoryIcons(token: token),
+              Stack(
+                children: [
+                  Positioned.fill(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(15, 58, 129, 241),
+                      ),
+                      margin: const EdgeInsets.symmetric(horizontal: 0),
+                      height: 260,
+                      width: double.infinity,
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 8, left: 18),
+                        alignment: Alignment.bottomLeft,
+                        child: const Text(
+                          textAlign: TextAlign.left,
+                          'Public Amenities',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                            top: 12, bottom: 5, left: 5, right: 5),
+                        child: const CategoryPublicAmenities(),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 5),
-                child: CategoryIcons(token: token),
+              const SizedBox(
+                height: 20,
               ),
-              Image.asset('assets/Line 25.png'),
+              Stack(
+                children: [
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: const Color.fromARGB(15, 58, 129, 241),
+                      ),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 260,
+                      width: double.infinity,
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 8, left: 18),
+                        alignment: Alignment.bottomLeft,
+                        child: const Text(
+                          textAlign: TextAlign.left,
+                          'For You',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 12, bottom: 5),
+                        child: const CategoryIconThird(),
+                      ),
+                    ],
+                  )
+                ],
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 10, left: 25),
                 alignment: Alignment.bottomLeft,

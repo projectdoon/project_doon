@@ -2,24 +2,26 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mydoon/Providers/auth_provider.dart';
 import 'package:mydoon/User%20Profile/MyComplain.dart';
 import 'package:mydoon/configuration/config.dart';
 import 'package:mydoon/widgets/voice_recorder.dart';
 import 'isRegister.dart';
 
-class complainExpanded extends StatefulWidget {
-  const complainExpanded({super.key, required this.token});
-
-  final token;
+class complainExpanded extends ConsumerStatefulWidget {
+  const complainExpanded({super.key});
 
   @override
-  State<complainExpanded> createState() => _allComplainState();
+  ConsumerState<complainExpanded> createState() => _allComplainState();
 }
 
-class _allComplainState extends State<complainExpanded> {
+class _allComplainState extends ConsumerState<complainExpanded> {
+  late final String? token;
+
   List<String> itemsofComplain = [
     "Garbage Collection",
     "Dead",
@@ -75,15 +77,10 @@ class _allComplainState extends State<complainExpanded> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    userId = jwtDecodedToken['_id'];
-  }
+
 
   void registerComplain() async {
-    print('chala1');
+
     if (descriptionController.text.isNotEmpty) {
       var complainRegBody = {
         "userId": userId,
@@ -95,20 +92,18 @@ class _allComplainState extends State<complainExpanded> {
         "Lat": 123,
         "Long": 23
       };
-      print('chala2');
+
 
       try {
-        print(userId);
-        print(imageUrl);
+
         var response = await http.post(Uri.parse(Config.complainRegistration),
             headers: {"content-type": "application/json"},
             body: jsonEncode(complainRegBody));
         var jsonResponse = jsonDecode(response.body);
-        print('chala4');
-        print(jsonResponse['status']);
+
 
         if (jsonResponse['status']) {
-          print('chala5');
+
           descriptionController.clear();
 
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -126,7 +121,6 @@ class _allComplainState extends State<complainExpanded> {
           print('something went wrong');
         }
       } catch (err) {
-        print('nahichala1');
         print(err);
       }
     } else {
@@ -134,6 +128,14 @@ class _allComplainState extends State<complainExpanded> {
         _isNotValidate = true;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    token =ref.read(tokenProvider);
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(token!);
+    userId = jwtDecodedToken['_id'];
   }
 
   @override
@@ -306,7 +308,7 @@ class _allComplainState extends State<complainExpanded> {
                                 ],
                               ),
                             ),
-                            VoiceRecorderButton(),
+                            const VoiceRecorderButton(),
                           ],
                         ),
                       ],

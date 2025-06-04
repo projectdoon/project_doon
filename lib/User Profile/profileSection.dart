@@ -25,7 +25,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     super.initState();
     token = ref.read(tokenProvider);
 
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       if (_scaffoldKey.currentState != null) {
         _scaffoldKey.currentState?.openEndDrawer();
       }
@@ -36,10 +36,10 @@ class _UserProfileState extends ConsumerState<UserProfile> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      width: screenWidth * 0.72,
+      width: screenWidth * 0.7,
       child: Drawer(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(24, 80, 12, 0),
             child: Column(
@@ -56,7 +56,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                   name: 'My Complains',
                   icon: Icons.settings,
                   onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => myComplain())),
+                      MaterialPageRoute(builder: (context) => const myComplain())),
                 ),
                 const SizedBox(height: 25),
                 drwaerItems(
@@ -113,11 +113,11 @@ class _UserProfileState extends ConsumerState<UserProfile> {
 
   Future<void> logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token'); // Remove token from storage
+    await prefs.remove('token');
     ref.read(tokenProvider.notifier).clearToken();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => StartScreen()),
+      MaterialPageRoute(builder: (context) => const StartScreen()),
     );
   }
 
@@ -151,7 +151,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           TextButton(
             onPressed: () {},
             child: const Text(

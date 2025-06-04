@@ -116,9 +116,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     });
 
     // Get and print the FCM token
-    _firebaseMessaging.getToken().then((token) {
-      print('🛠️ FCM Token: $token');
-    });
+    _firebaseMessaging.getToken().then((token) {});
   }
 
   Future<void> _showNotification(RemoteMessage message) async {
@@ -144,10 +142,20 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     final token = ref.watch(tokenProvider);
+
+    bool isValidToken(String? token) {
+      if (token == null || token.trim().isEmpty) return false;
+
+      try {
+        return !JwtDecoder.isExpired(token);
+      } catch (e) {
+        print("❗ Invalid token format: $e");
+        return false;
+      }
+    }
+
     return Scaffold(
-      body: (token != null && !JwtDecoder.isExpired(token))
-          ? NavigationMenu()
-          : const StartScreen(),
+      body: isValidToken(token) ? const NavigationMenu() : const StartScreen(),
     );
   }
 }

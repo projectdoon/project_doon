@@ -28,6 +28,9 @@ class RegisterScreen2 extends ConsumerStatefulWidget {
   ConsumerState<RegisterScreen2> createState() => _RegisterScreen2State();
 }
 
+
+
+
 class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
   var address1 = TextEditingController(text: '');
   var address2 = TextEditingController();
@@ -63,7 +66,6 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initSharedPref();
   }
@@ -122,7 +124,6 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
       };
 
       try {
-        print("try block");
         var response = await http.post(Uri.parse(Config.registration),
             headers: {"content-type": "application/json"},
             body: jsonEncode(regBody));
@@ -183,7 +184,6 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
                       ),
                       onPressed: () {},
                     ),
-                    //  Expanded(child: Container()), // Spacer
                   ],
                 ),
               ),
@@ -212,7 +212,7 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
                   getCurrentLocation();
                 },
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Container(
                 height: 45,
                 width: 325,
@@ -259,10 +259,10 @@ class _RegisterScreen2State extends ConsumerState<RegisterScreen2> {
                       errorText: _isNotValidate ? "enter proper info" : null,
                       hintText: 'Address Line 2',
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.only(left: 16.0)),
+                      contentPadding: const EdgeInsets.only(left: 16.0)),
                 ),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Container(
                 height: 45,
                 width: 325,
